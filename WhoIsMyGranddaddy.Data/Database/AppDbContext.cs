@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using WhoIsMyGranddaddy.Data.Models;
 
 namespace WhoIsMyGranddaddy.Data.Database;
@@ -61,7 +62,17 @@ public class AppDbContext : DbContext
             .WithMany()
             .HasForeignKey(p => p.MotherId)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        
     }
 
+    // Define the stored procedure method
+    [DbFunction("GetDescendantsByPersonId", schema: "site")]
+    public IQueryable<Person> GetDescendantsByPersonId(string idNumber)
+    {
+        var parameter = new SqlParameter("@IdNumber", idNumber);
+        return Set<Person>().FromSqlInterpolated($"[site].[GetDescendantsByPersonId] {parameter}");
+    }
+    
     public DbSet<Person> Persons { get; set; }
 }
