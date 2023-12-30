@@ -12,10 +12,10 @@ public class Person
     public int? MotherId { get; set; }
     
     [ForeignKey("FatherId")]
-    public Person Father { get; set; }
+    public Person? Father { get; set; }
 
     [ForeignKey("MotherId")]
-    public Person Mother { get; set; }
+    public Person? Mother { get; set; }
     
     [Required]
     public string Name { get; set; }
