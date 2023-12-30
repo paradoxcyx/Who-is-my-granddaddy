@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhoIsMyGranddaddy.Server", 
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "whoismygranddaddy.client", "whoismygranddaddy.client\whoismygranddaddy.client.esproj", "{08F25C81-08E7-4BF4-811A-25A9EBCFABF6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhoIsMyGranddaddy.Data", "WhoIsMyGranddaddy.Data\WhoIsMyGranddaddy.Data.csproj", "{58EB1636-DEC7-408E-A839-7197382AAFA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{08F25C81-08E7-4BF4-811A-25A9EBCFABF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08F25C81-08E7-4BF4-811A-25A9EBCFABF6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{08F25C81-08E7-4BF4-811A-25A9EBCFABF6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{58EB1636-DEC7-408E-A839-7197382AAFA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58EB1636-DEC7-408E-A839-7197382AAFA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58EB1636-DEC7-408E-A839-7197382AAFA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58EB1636-DEC7-408E-A839-7197382AAFA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

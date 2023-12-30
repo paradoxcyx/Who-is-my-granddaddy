@@ -1,0 +1,15 @@
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Data\bin\Debug\net6.0\WhoIsMyGranddaddy.Data.deps.json
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Data\bin\Debug\net6.0\WhoIsMyGranddaddy.Data.dll
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Data\bin\Debug\net6.0\WhoIsMyGranddaddy.Data.pdb
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Data\obj\Debug\net6.0\WhoIsMyGranddaddy.Data.csproj.AssemblyReference.cache
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Data\obj\Debug\net6.0\WhoIsMyGranddaddy.Data.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Data\obj\Debug\net6.0\WhoIsMyGranddaddy.Data.AssemblyInfoInputs.cache
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Data\obj\Debug\net6.0\WhoIsMyGranddaddy.Data.AssemblyInfo.cs
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Data\obj\Debug\net6.0\WhoIsMyGranddaddy.Data.csproj.CoreCompileInputs.cache
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Data\obj\Debug\net6.0\WhoIsMyGranddaddy.Data.sourcelink.json
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Data\obj\Debug\net6.0\WhoIsMyGranddaddy.Data.dll
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Data\obj\Debug\net6.0\refint\WhoIsMyGranddaddy.Data.dll
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Data\obj\Debug\net6.0\WhoIsMyGranddaddy.Data.pdb
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Data\obj\Debug\net6.0\ref\WhoIsMyGranddaddy.Data.dll
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Data\bin\Debug\net6.0\WhoIsMyGranddaddy.Data.runtimeconfig.json
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Data\obj\Debug\net6.0\WhoIsMyGranddaddy.Data.genruntimeconfig.cache
