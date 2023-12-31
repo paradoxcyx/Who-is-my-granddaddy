@@ -67,11 +67,19 @@ public class AppDbContext : DbContext
     }
 
     // Define the stored procedure method
-    [DbFunction("GetDescendantsByPersonId", schema: "site")]
-    public IQueryable<Person> GetDescendantsByPersonId(string idNumber)
+    [DbFunction("GetDescendantsByIdentityNumber", schema: "site")]
+    public IQueryable<Person> GetDescendantsByIdentityNumber(string idNumber)
     {
         var parameter = new SqlParameter("@IdNumber", idNumber);
-        return Set<Person>().FromSqlInterpolated($"[site].[GetDescendantsByPersonId] {parameter}");
+        return Set<Person>().FromSqlInterpolated($"[site].[GetDescendantsByIdentityNumber] {parameter}");
+    }
+    
+    // Define the stored procedure method
+    [DbFunction("GetRootAscendantsByIdentityNumber", schema: "site")]
+    public IQueryable<Person> GetRootAscendantsByIdentityNumber(string idNumber)
+    {
+        var parameter = new SqlParameter("@IdNumber", idNumber);
+        return Set<Person>().FromSqlInterpolated($"[site].[GetRootAscendantsByIdentityNumber] {parameter}");
     }
     
     public DbSet<Person> Persons { get; set; }

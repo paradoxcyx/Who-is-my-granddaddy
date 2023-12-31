@@ -8,7 +8,7 @@ namespace WhoIsMyGranddaddy.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-	        migrationBuilder.Sql(@"CREATE PROCEDURE [site].[GetDescendantsByPersonId]
+	        migrationBuilder.Sql(@"CREATE PROCEDURE [site].[GetDescendantsByIdentityNumber]
 					@IdentityNumber NVARCHAR(MAX)
 					AS
 					BEGIN
@@ -49,7 +49,7 @@ namespace WhoIsMyGranddaddy.Data.Migrations
 							BirthDate,
 							IdentityNumber
 						FROM
-							RecursiveDescendants
+							RecursiveDescendants WHERE IdentityNumber != @IdentityNumber
 						ORDER BY BirthDate ASC;
 				END
 			");
