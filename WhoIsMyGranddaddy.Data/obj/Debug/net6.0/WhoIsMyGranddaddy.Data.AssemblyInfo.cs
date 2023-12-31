@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WhoIsMyGranddaddy.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bc041357b00b50deb0d9ab45076d1e6732056ad3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+710f4a72be788e63d85840d715e849f1255d0fd5")]
 [assembly: System.Reflection.AssemblyProductAttribute("WhoIsMyGranddaddy.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WhoIsMyGranddaddy.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
