@@ -19,7 +19,7 @@ public class FamilyTreeController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetFamilyTree()
     {
-        var familyTree = await _familyTreeService.GetFamilyTree();
+        var familyTree = (await _familyTreeService.GetFamilyTree()).Take(1).ToList();
         
         return Ok(new GenericResponseModel<List<PersonModel>>(true, "Family Tree successfully retrieved", familyTree));
     }

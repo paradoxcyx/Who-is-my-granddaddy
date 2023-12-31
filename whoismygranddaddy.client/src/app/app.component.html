@@ -1,3 +1,15 @@
-﻿<div class="w-full h-16 bg-slate-700 top-0 shadow-md absolute">
+﻿<div class="w-full h-16 bg-slate-700 top-0 shadow-md fixed flex items-center justify-center px-4">
   <!-- Content for the top bar -->
+
+  <div>
+    <!-- Other navbar content -->
+
+    <!-- Family Tree Viewer button -->
+    <a routerLink="/family-tree-viewer" class="text-white px-4 py-2 font-bold bg-cyan-600 p-2 rounded-full mr-5">Family Tree Viewer</a>
+    <a routerLink="/family-tree-viewer" class="text-white px-4 py-2 font-bold bg-cyan-600 p-2 rounded-full">Root Ascendant</a>
+  </div>
+</div>
+
+<div class="mt-20">
+  <router-outlet></router-outlet>
 </div>
