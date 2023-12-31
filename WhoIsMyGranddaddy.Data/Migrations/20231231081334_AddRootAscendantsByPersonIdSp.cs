@@ -9,10 +9,10 @@ namespace WhoIsMyGranddaddy.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql(@"CREATE PROCEDURE [site].[GetRootAscendantsByIdentityNumber]
-	            @IdentityNumber NVARCHAR(MAX)
+                    @IdentityNumber NVARCHAR(MAX)
                 AS
                 BEGIN
-                WITH RecursiveAscendants AS (
+                    WITH RecursiveAscendants AS (
                         SELECT
                             Id,
                             FatherId,
@@ -40,7 +40,7 @@ namespace WhoIsMyGranddaddy.Data.Migrations
                             RecursiveAscendants ra ON ra.FatherId = p.Id OR ra.MotherId = p.Id
                     )
                     SELECT
-                        DISTINCT(Id),
+                        DISTINCT Id,
                         FatherId,
                         MotherId,
                         Name,
@@ -48,9 +48,13 @@ namespace WhoIsMyGranddaddy.Data.Migrations
                         BirthDate,
                         IdentityNumber
                     FROM
-                        RecursiveAscendants WHERE IdentityNumber != @IdentityNumber
-                    ORDER BY BirthDate ASC;
-                END");
+                        RecursiveAscendants
+                    WHERE
+                        (FatherId IS NULL OR MotherId IS NULL)
+                    ORDER BY
+                        BirthDate ASC;
+                END
+                ");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

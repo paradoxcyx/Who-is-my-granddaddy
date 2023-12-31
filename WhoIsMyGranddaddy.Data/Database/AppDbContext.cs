@@ -70,7 +70,7 @@ public class AppDbContext : DbContext
     [DbFunction("GetDescendantsByIdentityNumber", schema: "site")]
     public IQueryable<Person> GetDescendantsByIdentityNumber(string idNumber)
     {
-        var parameter = new SqlParameter("@IdNumber", idNumber);
+        var parameter = new SqlParameter("@IdentityNumber", idNumber);
         return Set<Person>().FromSqlInterpolated($"[site].[GetDescendantsByIdentityNumber] {parameter}");
     }
     
@@ -78,7 +78,7 @@ public class AppDbContext : DbContext
     [DbFunction("GetRootAscendantsByIdentityNumber", schema: "site")]
     public IQueryable<Person> GetRootAscendantsByIdentityNumber(string idNumber)
     {
-        var parameter = new SqlParameter("@IdNumber", idNumber);
+        var parameter = new SqlParameter("@IdentityNumber", idNumber);
         return Set<Person>().FromSqlInterpolated($"[site].[GetRootAscendantsByIdentityNumber] {parameter}");
     }
     

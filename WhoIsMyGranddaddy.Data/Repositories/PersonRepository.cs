@@ -12,7 +12,11 @@ public class PersonRepository : IPersonRepository
     {
         _context = context;
     }
-    
+
+    public async Task<Person?> GetPersonAsync(string identityNumber)
+    {
+        return await _context.Persons.FirstOrDefaultAsync(x => x.IdentityNumber == identityNumber);
+    }
     public async Task<List<Person>> GetPersonsAsync()
     {
         var dbPersons = await _context.Persons.OrderBy(x => x.BirthDate).ToListAsync();
