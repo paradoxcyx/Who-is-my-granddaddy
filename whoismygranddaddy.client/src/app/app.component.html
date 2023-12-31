@@ -1,3 +1,7 @@
 ﻿<div class="w-full h-16 bg-slate-700 top-0 shadow-md absolute">
 
 </div>
+
+<div *ngFor="let person in persons" class="w-100 h-5">
+  <span>{{ person.name }}</span>
+</div>

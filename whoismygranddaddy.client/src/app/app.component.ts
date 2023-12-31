@@ -1,12 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
-}
+import {FamilyTreeApiService} from "./services/family-tree-api.service";
+import {Person} from "./interfaces/person";
 
 @Component({
   selector: 'app-root',
@@ -14,24 +8,22 @@ interface WeatherForecast {
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  public forecasts: WeatherForecast[] = [];
+  public persons: Person[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private familyTreeService: FamilyTreeApiService) {}
 
   ngOnInit() {
-    this.getForecasts();
+    this.getPeople();
   }
 
-  getForecasts() {
-    this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
+  getPeople() {
+    this.familyTreeService.getFamilyTree().subscribe(
       (result) => {
-        this.forecasts = result;
+        this.persons = result.data;
       },
       (error) => {
-        console.error(error);
+        console.log(error);
       }
-    );
+    )
   }
-
-  title = 'whoismygranddaddy.client';
 }
