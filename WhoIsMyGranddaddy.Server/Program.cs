@@ -10,10 +10,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        builder => builder.WithOrigins("https://127.0.0.1:4200") // Add your Angular app's URL
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
+
 builder.Services.AddData(builder.Configuration.GetConnectionString("DefaultConnection"));
 builder.Services.AddDomain();
 
 var app = builder.Build();
+
+app.UseCors("AllowFrontend");
 
 app.UseDefaultFiles();
 app.UseStaticFiles();

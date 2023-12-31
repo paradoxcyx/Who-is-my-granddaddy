@@ -11,4 +11,5 @@
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::E9FB463F-7874-49C1-9092-9EB6E8E1D859::net6.0::WhoIsMyGranddaddy.Tests.PersonServiceTests.GetDescendantFamilyTree_ShouldReturnCorrectFamilyTree&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+&lt;/SessionState&gt;</s:String>
+	</wpf:ResourceDictionary>
