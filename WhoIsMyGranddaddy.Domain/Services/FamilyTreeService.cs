@@ -4,22 +4,23 @@ using WhoIsMyGranddaddy.Domain.Models;
 
 namespace WhoIsMyGranddaddy.Domain.Services;
 
-public class PersonService : IPersonService
+public class FamilyTreeService : IFamilyTreeService
 {
     private readonly IPersonRepository _personRepository;
 
-    public PersonService(IPersonRepository personRepository)
+    public FamilyTreeService(IPersonRepository personRepository)
     {
         _personRepository = personRepository;
     }
-    public async Task<List<PersonModel>> GetFullFamilyTree()
+    public async Task<List<PersonModel>> GetFamilyTree()
     {
         var people = await _personRepository.GetPersonsAsync();
-
-        var familyTree = BuildFamilyTree(people);
+        var peopleDictionary = people.ToDictionary(p => p.Id);
+        
+        var familyTree = BuildFamilyTree(peopleDictionary);
         return familyTree;
     }
-    public async Task<List<PersonModel>> GetFamilyTreeDescendants(string identityNumber)
+    public async Task<List<PersonModel>> GetDescendants(string identityNumber)
     {
         var person = await _personRepository.GetPersonAsync(identityNumber);
 
@@ -27,42 +28,44 @@ public class PersonService : IPersonService
             throw new InvalidOperationException("This person does not exist!");
         
         var people = await _personRepository.GetDescendantsByIdentityNumberAsync(identityNumber);
-
+        var peopleDictionary = people.ToDictionary(p => p.Id);
+        
         // Organize people into a hierarchy
-        var familyTree = BuildFamilyTree(people, person.Id);
+        var familyTree = BuildFamilyTree(peopleDictionary, person.Id);
         return familyTree;
     }
     
     public async Task<List<PersonModel>> GetRootAscendants(string identityNumber)
     {
-        var people = await _personRepository.GetRootAscendantsByIdentityNumberAsync(identityNumber);
+        var person = await _personRepository.GetPersonAsync(identityNumber);
 
+        if (person == null)
+            throw new InvalidOperationException("This person does not exist!");
+        
+        var people = await _personRepository.GetRootAscendantsByIdentityNumberAsync(identityNumber);
+        
         return people.Select(x => new PersonModel
         {
-            MotherId = x.MotherId,
-            FatherId = x.FatherId,
             IdentityNumber = x.IdentityNumber,
             Name = x.Name,
             Surname = x.Surname,
             BirthDate = x.BirthDate
         }).ToList();
     }
-    private List<PersonModel> BuildFamilyTree(IEnumerable<Person> people, int? parentId = null)
+    private List<PersonModel> BuildFamilyTree(Dictionary<int, Person> people, int? parentId = null)
     {
-        var children = people
-            .Where(p => (parentId.HasValue ? p.FatherId == parentId : p.FatherId == null) || p.MotherId == parentId).ToList();
+        var children = people.Values
+            .Where(p => (parentId.HasValue ? p.FatherId == parentId : p.FatherId == null) || p.MotherId == parentId)
+            .OrderBy(p => p.BirthDate).ToList();
         
         return children.Select(child => new PersonModel
             {
-                MotherId = child.MotherId,
-                FatherId = child.FatherId,
                 IdentityNumber = child.IdentityNumber,
                 Name = child.Name,
                 Surname = child.Surname,
                 BirthDate = child.BirthDate,
                 Children = BuildFamilyTree(people, child.Id)
             })
-            .OrderBy(x => x.BirthDate)
             .ToList();
     }
 }

@@ -3,7 +3,7 @@ using WhoIsMyGranddaddy.Domain.Services;
 
 namespace WhoIsMyGranddaddy.Tests;
 
-public class PersonServiceTests : TestsBase
+public class FamilyTreeServiceTests : TestsBase
 {
     /// <summary>
     /// Test case to verify that a family tree is ordered by birthdate and that the correct people is in the correct positions
@@ -13,10 +13,10 @@ public class PersonServiceTests : TestsBase
     {
         // Arrange
         var personRepository = new PersonRepository(TestContext);
-        var personService = new PersonService(personRepository);
+        var personService = new FamilyTreeService(personRepository);
 
         // Act
-        var familyTree = await personService.GetFullFamilyTree();
+        var familyTree = await personService.GetFamilyTree();
 
         // Assert
         Assert.NotNull(familyTree);

@@ -2,20 +2,20 @@
 
 namespace WhoIsMyGranddaddy.Domain.Services;
 
-public interface IPersonService
+public interface IFamilyTreeService
 {
     /// <summary>
     /// Retrieving full family tree
     /// </summary>
     /// <returns>List of full family tree</returns>
-    Task<List<PersonModel>> GetFullFamilyTree();
+    Task<List<PersonModel>> GetFamilyTree();
     
     /// <summary>
     /// Retrieving all family descendants for specified Identity Number
     /// </summary>
     /// <param name="identityNumber">The identity number</param>
     /// <returns>List of family descendants</returns>
-    Task<List<PersonModel>> GetFamilyTreeDescendants(string identityNumber);
+    Task<List<PersonModel>> GetDescendants(string identityNumber);
 
     /// <summary>
     /// Retrieving root ascendants for specified Identity Number
