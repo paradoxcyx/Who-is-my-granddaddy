@@ -12,8 +12,6 @@ public class PersonService : IPersonService
     {
         _personRepository = personRepository;
     }
-    
-    
     public async Task<List<PersonModel>> GetFullFamilyTree()
     {
         var people = await _personRepository.GetPersonsAsync();
@@ -23,10 +21,15 @@ public class PersonService : IPersonService
     }
     public async Task<List<PersonModel>> GetFamilyTreeDescendants(string identityNumber)
     {
+        var person = await _personRepository.GetPersonAsync(identityNumber);
+
+        if (person == null)
+            throw new InvalidOperationException("This person does not exist!");
+        
         var people = await _personRepository.GetDescendantsByIdentityNumberAsync(identityNumber);
 
         // Organize people into a hierarchy
-        var familyTree = BuildFamilyTree(people, null, true);
+        var familyTree = BuildFamilyTree(people, person.Id);
         return familyTree;
     }
     
@@ -44,10 +47,10 @@ public class PersonService : IPersonService
             BirthDate = x.BirthDate
         }).ToList();
     }
-    private List<PersonModel> BuildFamilyTree(IEnumerable<Person> people, int? parentId = null, bool isDescendants = false)
+    private List<PersonModel> BuildFamilyTree(IEnumerable<Person> people, int? parentId = null)
     {
         var children = people
-            .Where(p => (parentId.HasValue ? p.FatherId == parentId : p.FatherId == null || isDescendants) || p.MotherId == parentId).ToList();
+            .Where(p => (parentId.HasValue ? p.FatherId == parentId : p.FatherId == null) || p.MotherId == parentId).ToList();
         
         return children.Select(child => new PersonModel
             {
@@ -59,6 +62,7 @@ public class PersonService : IPersonService
                 BirthDate = child.BirthDate,
                 Children = BuildFamilyTree(people, child.Id)
             })
+            .OrderBy(x => x.BirthDate)
             .ToList();
     }
 }

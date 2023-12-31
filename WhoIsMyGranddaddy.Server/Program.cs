@@ -1,4 +1,5 @@
 using WhoIsMyGranddaddy.Data;
+using WhoIsMyGranddaddy.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddData(builder.Configuration.GetConnectionString("DefaultConnection"));
+builder.Services.AddDomain();
 
 var app = builder.Build();
 

@@ -25,6 +25,7 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\WhoIsMyGranddaddy.Data\WhoIsMyGranddaddy.Data.csproj" />
+    <ProjectReference Include="..\WhoIsMyGranddaddy.Domain\WhoIsMyGranddaddy.Domain.csproj" />
   </ItemGroup>
 
 </Project>

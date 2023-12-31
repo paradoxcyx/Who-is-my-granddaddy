@@ -4,6 +4,8 @@ namespace WhoIsMyGranddaddy.Data.Repositories;
 
 public interface IPersonRepository
 {
+    public Task<Person?> GetPersonAsync(string identityNumber);
+    
     /// <summary>
     /// Retrieving all people in family tree
     /// </summary>
