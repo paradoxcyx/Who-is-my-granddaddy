@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WhoIsMyGranddaddy.Data.Models;
+namespace WhoIsMyGranddaddy.Data.Entities;
 
 public class Person
 {

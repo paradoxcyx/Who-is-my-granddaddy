@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WhoIsMyGranddaddy.Data.Database;
+using WhoIsMyGranddaddy.Data.Repositories;
 
 namespace WhoIsMyGranddaddy.Data;
 
@@ -10,5 +11,7 @@ public static class DependencyInjection
     {
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(connectionString));
+
+        services.AddScoped<IPersonRepository, PersonRepository>();
     }
 }

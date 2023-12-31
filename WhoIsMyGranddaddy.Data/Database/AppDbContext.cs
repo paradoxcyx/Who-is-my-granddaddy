@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using WhoIsMyGranddaddy.Data.Models;
+using WhoIsMyGranddaddy.Data.Entities;
 
 namespace WhoIsMyGranddaddy.Data.Database;
 
