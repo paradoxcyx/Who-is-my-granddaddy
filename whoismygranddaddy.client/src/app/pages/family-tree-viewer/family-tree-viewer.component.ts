@@ -1,6 +1,7 @@
-import {AfterViewInit, Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {FamilyTreeApiService} from "../../../shared/services/family-tree/family-tree-api.service";
 import {FamilyMember} from "../../../shared/interfaces/family-member";
+import {TreeViewerComponent} from "../../components/tree-viewer/tree-viewer.component";
 
 
 @Component({
@@ -9,8 +10,10 @@ import {FamilyMember} from "../../../shared/interfaces/family-member";
   styleUrl: './family-tree-viewer.component.css'
 })
 export class FamilyTreeViewerComponent implements OnInit {
+  @ViewChild('treeviewer') TreeViewer: TreeViewerComponent | undefined;
 
   familyMembers: FamilyMember[] = [];
+  searchByIdentityNumber: string | null = null;
 
   constructor(private familyTreeService: FamilyTreeApiService) {
   }
@@ -19,9 +22,10 @@ export class FamilyTreeViewerComponent implements OnInit {
   }
 
   loadFamilyMembers() {
-    this.familyTreeService.getDescendants(null)
+    this.familyTreeService.getDescendants(this.searchByIdentityNumber)
       .subscribe((result) => {
         this.familyMembers = result.data;
+        this.TreeViewer!.loadFamilyMembers(this.familyMembers);
       })
   }
 }

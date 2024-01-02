@@ -11,8 +11,26 @@ import {FamilyMember} from "../../../shared/interfaces/family-member";
 
 export class TreeViewerComponent implements OnInit {
 
-  @Input() familyMembers: FamilyMember[] = [];
+  familyTree!: FamilyTree;
 
+  constructor() {
+    this.initTemplate();
+    const tree = document.getElementById('tree');
+    if (tree) {
+      this.familyTree = new FamilyTree(tree, {
+        template: 'family',
+        enableSearch: false,
+        enableTouch: false,
+        nodeMouseClick: FamilyTree.action.none,
+        nodeBinding: {
+          field_0: "name",
+          field_1: "birthDate",
+          field_2: "identityNumber"
+        },
+
+      });
+    }
+  }
   //Initializing custom template for tree-view and nodes
   initTemplate() {
     FamilyTree.templates['family'] = Object.assign({}, FamilyTree.templates['tommy']);
@@ -36,28 +54,12 @@ export class TreeViewerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
 
-    this.initTemplate();
-
-    const tree = document.getElementById('tree');
-    if (tree) {
-      var family = new FamilyTree(tree, {
-        template: 'family',
-        enableSearch: false,
-        enableTouch: false,
-        nodeMouseClick: FamilyTree.action.none,
-        nodeBinding: {
-          field_0: "name",
-          field_1: "birthDate",
-          field_2: "identityNumber"
-        },
-
-      });
-
-      //Loading the family members into the tree view
-      family.load(this.familyMembers);
-    }
-
+  loadFamilyMembers(familyMembers: FamilyMember[]) {
+    console.log('loading');
+    //Loading the family members into the tree view
+    this.familyTree!.load(familyMembers);
   }
 
 }

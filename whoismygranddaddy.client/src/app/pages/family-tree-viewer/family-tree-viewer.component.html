@@ -1,7 +1,12 @@
 <div class="flex justify-center">
-  <span>Search</span>
+  <input
+    class="border-2 w-56 border-slate-700 mr-5 rounded-md p-1 placeholder-slate-700 focus:border-slate-800"
+    placeholder="Identity Number" [(ngModel)]="this.searchByIdentityNumber" />
+
+  <button class="bg-cyan-600 text-white w-24 rounded-md">Search</button>
+
 </div>
 
-<div *ngIf="this.familyMembers.length > 0">
-  <tree-viewer [familyMembers]="this.familyMembers"></tree-viewer>
-</div>
+
+  <tree-viewer #treeviewer></tree-viewer>
+

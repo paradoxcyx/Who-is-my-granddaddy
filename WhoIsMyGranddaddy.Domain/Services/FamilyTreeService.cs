@@ -71,7 +71,7 @@ public class FamilyTreeService : IFamilyTreeService
                 throw new InvalidOperationException("This person does not exist!");
         }
         
-        var people = await _personRepository.GetDescendantsByIdentityNumberAsync("ID2");
+        var people = await _personRepository.GetDescendantsByIdentityNumberAsync(identityNumber);
 
         return BuildFamilyTree(people);
     }
