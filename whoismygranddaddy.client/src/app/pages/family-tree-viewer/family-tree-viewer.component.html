@@ -1,15 +1,7 @@
-
-<div>
-  <gojs-diagram
-    #myDiag
-    [initDiagram]="initDiagram"
-    [modelData]="diagramModelData"
-    [nodeDataArray]="familyData"
-    [divClassName]="diagramDivClassName"
-    (modelChange)="onModelChange($event)">
-
-  </gojs-diagram>
+<div class="flex justify-center">
+  <span>Search</span>
 </div>
 
-
-
+<div *ngIf="this.familyMembers.length > 0">
+  <tree-viewer [familyMembers]="this.familyMembers"></tree-viewer>
+</div>

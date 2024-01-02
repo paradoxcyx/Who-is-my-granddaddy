@@ -62,15 +62,14 @@ public class AppDbContext : DbContext
             .WithMany()
             .HasForeignKey(p => p.MotherId)
             .OnDelete(DeleteBehavior.Restrict);
-        
-        
     }
 
     // Define the stored procedure method
     [DbFunction("GetDescendantsByIdentityNumber", schema: "site")]
-    public IQueryable<Person> GetDescendantsByIdentityNumber(string idNumber)
+    public IQueryable<Person> GetDescendantsByIdentityNumber(string? idNumber)
     {
-        var parameter = new SqlParameter("@IdentityNumber", idNumber);
+        var parameter = new SqlParameter("@IdentityNumber", string.IsNullOrEmpty(idNumber) ? DBNull.Value : idNumber);
+        
         return Set<Person>().FromSqlInterpolated($"[site].[GetDescendantsByIdentityNumber] {parameter}");
     }
     

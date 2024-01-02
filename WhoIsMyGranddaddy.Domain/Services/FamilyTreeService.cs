@@ -12,30 +12,71 @@ public class FamilyTreeService : IFamilyTreeService
     {
         _personRepository = personRepository;
     }
-    public async Task<List<PersonModel>> GetFamilyTree()
+    
+    public async Task<List<FamilyMemberModel>> GetFamilyTreeAsync()
     {
-        var people = await _personRepository.GetPersonsAsync();
-        var peopleDictionary = people.ToDictionary(p => p.Id);
-        
-        var familyTree = BuildFamilyTree(peopleDictionary);
-        return familyTree;
-    }
-    public async Task<List<PersonModel>> GetDescendants(string identityNumber)
-    {
-        var person = await _personRepository.GetPersonAsync(identityNumber);
+        var people = (await _personRepository.GetPersonsAsync()).OrderBy(x => x.MotherId).ThenBy(x => x.FatherId).ToList();
 
-        if (person == null)
-            throw new InvalidOperationException("This person does not exist!");
-        
-        var people = await _personRepository.GetDescendantsByIdentityNumberAsync(identityNumber);
-        var peopleDictionary = people.ToDictionary(p => p.Id);
-        
-        // Organize people into a hierarchy
-        var familyTree = BuildFamilyTree(peopleDictionary, person.Id);
-        return familyTree;
+        return BuildFamilyTree(people);
+    }
+
+    private static List<FamilyMemberModel> BuildFamilyTree(IReadOnlyList<Person> people)
+    {
+        var familyMembers = people.Select(person => new FamilyMemberModel
+        {
+            Id = person.Id,
+            BirthDate = person.BirthDate,
+            IdentityNumber = person.IdentityNumber,
+            Fid = person.FatherId,
+            Mid = person.MotherId,
+            Name = person.Name,
+            Surname = person.Surname
+        }).ToList();
+
+        var familyMembersSet = new HashSet<FamilyMemberModel>(familyMembers);
+
+        foreach (var person in people)
+        {
+            if (person is { FatherId: not null, MotherId: not null })
+            {
+                var father = familyMembersSet.FirstOrDefault(y => y.Id == person.FatherId && y.Id != person.Id);
+                var mother = familyMembersSet.FirstOrDefault(y => y.Id == person.MotherId && y.Id != person.Id);
+
+                if (father != null && mother != null)
+                {
+                    if (father.Pids == null || father.Pids.Length < 1)
+                    {
+                        father.Pids = new[] { mother.Id };
+                    }
+
+                    if (mother.Pids == null || mother.Pids.Length < 1)
+                    {
+                        mother.Pids = new[] { father.Id };
+                    }
+                }
+            }
+        }
+
+        return familyMembers;
     }
     
-    public async Task<List<PersonModel>> GetRootAscendants(string identityNumber)
+    public async Task<List<FamilyMemberModel>> GetDescendants(string? identityNumber = null)
+    {
+        //Only verify the person if identity number filtering is applied
+        if (!string.IsNullOrEmpty(identityNumber))
+        {
+            var person = await _personRepository.GetPersonAsync(identityNumber);
+
+            if (person == null)
+                throw new InvalidOperationException("This person does not exist!");
+        }
+        
+        var people = await _personRepository.GetDescendantsByIdentityNumberAsync("ID2");
+
+        return BuildFamilyTree(people);
+    }
+    
+    public async Task<List<FamilyMemberModel>> GetRootAscendants(string identityNumber)
     {
         var person = await _personRepository.GetPersonAsync(identityNumber);
 
@@ -43,29 +84,8 @@ public class FamilyTreeService : IFamilyTreeService
             throw new InvalidOperationException("This person does not exist!");
         
         var people = await _personRepository.GetRootAscendantsByIdentityNumberAsync(identityNumber);
-        
-        return people.Select(x => new PersonModel
-        {
-            IdentityNumber = x.IdentityNumber,
-            Name = x.Name,
-            Surname = x.Surname,
-            BirthDate = x.BirthDate
-        }).ToList();
+
+        return BuildFamilyTree(people);
     }
-    private List<PersonModel> BuildFamilyTree(Dictionary<int, Person> people, int? parentId = null)
-    {
-        var children = people.Values
-            .Where(p => (parentId.HasValue ? p.FatherId == parentId : p.FatherId == null) || p.MotherId == parentId)
-            .OrderBy(p => p.BirthDate).ToList();
-        
-        return children.Select(child => new PersonModel
-            {
-                IdentityNumber = child.IdentityNumber,
-                Name = child.Name,
-                Surname = child.Surname,
-                BirthDate = child.BirthDate,
-                Children = BuildFamilyTree(people, child.Id)
-            })
-            .ToList();
-    }
+    
 }

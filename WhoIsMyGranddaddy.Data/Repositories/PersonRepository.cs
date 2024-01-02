@@ -29,7 +29,7 @@ public class PersonRepository : IPersonRepository
         return rootAscendantsQuery.ToListAsync();
     }
 
-    public Task<List<Person>> GetDescendantsByIdentityNumberAsync(string identityNumber)
+    public Task<List<Person>> GetDescendantsByIdentityNumberAsync(string? identityNumber)
     {
         var descendantsQuery = _context.GetDescendantsByIdentityNumber(identityNumber);
         return descendantsQuery.ToListAsync();

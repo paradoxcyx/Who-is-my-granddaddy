@@ -8,20 +8,20 @@ public interface IFamilyTreeService
     /// Retrieving full family tree
     /// </summary>
     /// <returns>List of full family tree</returns>
-    Task<List<PersonModel>> GetFamilyTree();
+    Task<List<FamilyMemberModel>> GetFamilyTreeAsync();
     
     /// <summary>
     /// Retrieving all family descendants for specified Identity Number
     /// </summary>
     /// <param name="identityNumber">The identity number</param>
     /// <returns>List of family descendants</returns>
-    Task<List<PersonModel>> GetDescendants(string identityNumber);
+    Task<List<FamilyMemberModel>> GetDescendants(string? identityNumber);
 
     /// <summary>
     /// Retrieving root ascendants for specified Identity Number
     /// </summary>
     /// <param name="identityNumber">The identity number</param>
     /// <returns>Root ascendants (Mother & Father)</returns>
-    Task<List<PersonModel>> GetRootAscendants(string identityNumber);
+    Task<List<FamilyMemberModel>> GetRootAscendants(string identityNumber);
 
 }

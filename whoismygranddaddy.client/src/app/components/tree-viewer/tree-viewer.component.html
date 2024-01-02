@@ -1,8 +1,1 @@
-<div class="tree">
-  <ul>
-    <li *ngFor="let person of people">
-      <a href="#">{{ person.name }} / {{ person.identityNumber}}</a>
-      <tree-viewer *ngIf="person.children && person.children.length > 0" [people]="person.children"></tree-viewer>
-    </li>
-  </ul>
-</div>
+<div id="tree"></div>

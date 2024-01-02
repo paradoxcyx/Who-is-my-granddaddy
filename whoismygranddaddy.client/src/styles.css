@@ -1,13 +1,5 @@
+@import '../node_modules/@syncfusion/ej2-tailwind-theme/styles/customized/tailwind.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.myDiagramDiv {
-  background: transparent;
-  width: 75%;
-  height: 80vh;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  border: 1px solid black;
-}
