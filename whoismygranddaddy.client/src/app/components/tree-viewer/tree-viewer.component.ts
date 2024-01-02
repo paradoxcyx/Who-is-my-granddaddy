@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import FamilyTree from "@balkangraph/familytree.js";
-import {FamilyMember} from "../../interfaces/family-member";
+import {FamilyMember} from "../../../shared/interfaces/family-member";
 
 @Component({
   selector: 'tree-viewer',
@@ -13,6 +13,7 @@ export class TreeViewerComponent implements OnInit {
 
   @Input() familyMembers: FamilyMember[] = [];
 
+  //Initializing custom template for tree-view and nodes
   initTemplate() {
     FamilyTree.templates['family'] = Object.assign({}, FamilyTree.templates['tommy']);
     FamilyTree.templates['family'].size = [200, 120];
@@ -53,6 +54,7 @@ export class TreeViewerComponent implements OnInit {
 
       });
 
+      //Loading the family members into the tree view
       family.load(this.familyMembers);
     }
 

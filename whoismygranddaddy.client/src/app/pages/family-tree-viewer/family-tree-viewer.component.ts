@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit } from '@angular/core';
-import {FamilyTreeApiService} from "../../services/family-tree/family-tree-api.service";
-import {FamilyMember} from "../../interfaces/family-member";
+import {FamilyTreeApiService} from "../../../shared/services/family-tree/family-tree-api.service";
+import {FamilyMember} from "../../../shared/interfaces/family-member";
 
 
 @Component({
