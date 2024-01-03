@@ -22,6 +22,8 @@ public class FamilyTreeService : IFamilyTreeService
 
     private static List<FamilyMemberModel> BuildFamilyTree(IReadOnlyList<Person> people, bool isFiltered = false, string? identityNumber = null)
     {
+        //This logic is to accomodate for the library's way of displaying the family.
+        //Leaving the FatherID and MotherID's values here, causes the tree to display nothing
         if (isFiltered && !string.IsNullOrEmpty(identityNumber))
         {
             var root = people.FirstOrDefault(x => x.IdentityNumber.Equals(identityNumber));
@@ -71,8 +73,6 @@ public class FamilyTreeService : IFamilyTreeService
     
     public async Task<List<FamilyMemberModel>> GetDescendants(string? identityNumber = null)
     {
-        var isFiltered = false;
-        
         //Only verify the person if identity number filtering is applied
         if (!string.IsNullOrEmpty(identityNumber))
         {
@@ -82,7 +82,7 @@ public class FamilyTreeService : IFamilyTreeService
                 throw new InvalidOperationException("This person does not exist!");
         }
 
-        isFiltered = !string.IsNullOrEmpty(identityNumber);
+        var isFiltered = !string.IsNullOrEmpty(identityNumber);
         
         var people = await _personRepository.GetDescendantsByIdentityNumberAsync(identityNumber);
         
