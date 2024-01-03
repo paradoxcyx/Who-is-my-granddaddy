@@ -24,5 +24,5 @@ public interface IPersonRepository
     /// </summary>
     /// <param name="identityNumber">The identity number</param>
     /// <returns></returns>
-    public Task<List<Person>> GetDescendantsByIdentityNumberAsync(string identityNumber);
+    public Task<List<Person>> GetDescendantsByIdentityNumberAsync(string? identityNumber);
 }

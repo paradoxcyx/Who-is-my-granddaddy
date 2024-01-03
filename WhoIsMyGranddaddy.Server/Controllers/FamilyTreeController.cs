@@ -19,9 +19,9 @@ public class FamilyTreeController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetFamilyTree()
     {
-        var familyTree = await _familyTreeService.GetFamilyTree();
+        var familyTree = await _familyTreeService.GetFamilyTreeAsync();
         
-        return Ok(new GenericResponseModel<List<PersonModel>>(true, "Family Tree successfully retrieved", familyTree));
+        return Ok(new GenericResponseModel<List<FamilyMemberModel>>(true, "Family Tree successfully retrieved", familyTree));
     }
 
     [HttpGet("GetRootAscendants")]
@@ -31,28 +31,28 @@ public class FamilyTreeController : ControllerBase
         {
             var rootAscendants = await _familyTreeService.GetRootAscendants(identityNumber);
 
-            return Ok(new GenericResponseModel<List<PersonModel>>(true, "Root Ascendants successfully retrieved",
+            return Ok(new GenericResponseModel<List<FamilyMemberModel>>(true, "Root Ascendants successfully retrieved",
                 rootAscendants));
         }
         catch (InvalidOperationException oe)
         {
-            return BadRequest(new GenericResponseModel<List<PersonModel>>(false, oe.Message, new List<PersonModel>()));
+            return BadRequest(new GenericResponseModel<List<FamilyMemberModel>>(false, oe.Message, new List<FamilyMemberModel>()));
         }
     }
     
     [HttpGet("GetDescendants")]
-    public async Task<IActionResult> GetDescendants(string identityNumber)
+    public async Task<IActionResult> GetDescendants(string? identityNumber)
     {
         try
         {
             var descendants = await _familyTreeService.GetDescendants(identityNumber);
 
-            return Ok(new GenericResponseModel<List<PersonModel>>(true, "Descendants successfully retrieved",
+            return Ok(new GenericResponseModel<List<FamilyMemberModel>>(true, "Descendants successfully retrieved",
                 descendants));
         }
         catch (InvalidOperationException oe)
         {
-            return BadRequest(new GenericResponseModel<List<PersonModel>>(false, oe.Message, new List<PersonModel>()));
+            return BadRequest(new GenericResponseModel<List<FamilyMemberModel>>(false, oe.Message, new List<FamilyMemberModel>()));
         }
     }
 }
