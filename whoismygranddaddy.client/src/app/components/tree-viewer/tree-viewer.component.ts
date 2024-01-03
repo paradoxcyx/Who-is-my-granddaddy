@@ -14,7 +14,9 @@ export class TreeViewerComponent implements OnInit {
   familyTree!: FamilyTree;
 
   constructor() {
-    this.initTemplate();
+  }
+
+  initFamilyTree() {
     const tree = document.getElementById('tree');
     if (tree) {
       this.familyTree = new FamilyTree(tree, {
@@ -23,7 +25,7 @@ export class TreeViewerComponent implements OnInit {
         enableTouch: false,
         nodeMouseClick: FamilyTree.action.none,
         nodeBinding: {
-          field_0: "name",
+          field_0: "fullName",
           field_1: "birthDate",
           field_2: "identityNumber"
         },
@@ -57,9 +59,11 @@ export class TreeViewerComponent implements OnInit {
   }
 
   loadFamilyMembers(familyMembers: FamilyMember[]) {
-    console.log('loading');
+    this.initFamilyTree();
+    this.initTemplate();
+
     //Loading the family members into the tree view
-    this.familyTree!.load(familyMembers);
+    this.familyTree.load(familyMembers);
   }
 
 }

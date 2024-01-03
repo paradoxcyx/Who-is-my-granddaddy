@@ -23,6 +23,6 @@ export class FamilyTreeApiService extends Service {
       url += `?identityNumber=${identityNumber}`;
 
     }
-    return this.httpClient.get<GenericResponseModel<FamilyMember[]>>(url)
+    return this.httpClient.get<GenericResponseModel<FamilyMember[]>>(url);
   }
 }
