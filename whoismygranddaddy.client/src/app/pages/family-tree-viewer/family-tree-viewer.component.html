@@ -1,18 +1,22 @@
 <div class="flex justify-center">
-  <input
-    class="border-2 w-56 border-slate-700 mr-5 rounded-md p-1 placeholder-slate-700 focus:border-slate-800"
-    placeholder="Identity Number"  (keyup.enter)="search()" [(ngModel)]="this.searchByIdentityNumber" />
 
-  <button class="bg-cyan-600 text-white w-24 rounded-md mr-3" (click)="search()">Search</button>
-  <button class="bg-red-600 text-white w-24 rounded-md" (click)="clear()">Clear</button>
+  <div class="h-20 bg-slate-700 p-4 rounded-xl shadow-xl align-middle mb-10">
+    <input
+      class="border-2 w-56 border-slate-700 mr-5 rounded-md p-2 placeholder-slate-700 focus:border-slate-800"
+      placeholder="Identity Number"  (keyup.enter)="search()" [(ngModel)]="this.searchByIdentityNumber" />
+
+    <button class="bg-cyan-600 text-white w-24 rounded-md mr-3 p-2" (click)="search()">Search</button>
+    <button class="bg-red-600 text-white w-24 rounded-md p-2" (click)="clear()">Clear</button>
+  </div>
+
 
 </div>
 
-<div *ngIf="this.page.isLoading" class="w-100 justify-center mt-5 mb-5">
+<div *ngIf="this.page.isLoading" class="w-100 justify-center mb-5">
   <h1>Loading ...</h1>
 </div>
 
-<div *ngIf="this.page.hasError" class="w-100 justify-center mt-5 mb-5">
+<div *ngIf="this.page.hasError" class="w-100 justify-center">
   <h1 class="text-red-600">{{ this.page.error }}</h1>
 </div>
 

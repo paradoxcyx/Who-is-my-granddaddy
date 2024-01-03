@@ -23,6 +23,7 @@ export class TreeViewerComponent implements OnInit {
         template: 'family',
         enableSearch: false,
         enableTouch: false,
+
         nodeMouseClick: FamilyTree.action.none,
         nodeBinding: {
           field_0: "fullName",
@@ -50,9 +51,9 @@ export class TreeViewerComponent implements OnInit {
       rect: undefined
     };
 
-    FamilyTree.templates['family']['field_0'] = '<text style="font-size: 24px;" fill="#ffffff" x="100" y="90" text-anchor="middle">{val}</text>';
-    FamilyTree.templates['family']['field_1'] = '<text style="font-size: 16px;" fill="#ffffff" x="100" y="60" text-anchor="middle">{val}</text>';
-    FamilyTree.templates['family']['field_2'] = '<text style="font-size: 16px;" fill="#ffffff" x="100" y="30" text-anchor="middle">{val}</text>';
+    FamilyTree.templates['family']['field_0'] = '<text style="font-size: 24px;" fill="#000" x="100" y="90" text-anchor="middle">{val}</text>';
+    FamilyTree.templates['family']['field_1'] = '<text style="font-size: 16px;" fill="#000" x="100" y="60" text-anchor="middle">{val}</text>';
+    FamilyTree.templates['family']['field_2'] = '<text style="font-size: 16px;" fill="#000" x="100" y="30" text-anchor="middle">{val}</text>';
   }
 
   ngOnInit(): void {
