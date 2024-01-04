@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Data;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Update;
 using WhoIsMyGranddaddy.Data.Database;
 using WhoIsMyGranddaddy.Data.Entities;
 
@@ -31,10 +34,18 @@ public class PersonRepository : IPersonRepository
 
     public async Task<Tuple<List<Person>, int>> GetDescendantsByIdentityNumberAsync(string? identityNumber, int pageNumber = 1)
     {
-        var (query, maxPages) = _context.GetDescendantsByIdentityNumber(identityNumber, pageNumber);
-        
-        var descendants = await query.ToListAsync();
+        var identityNumberParam = new SqlParameter("@IdentityNumber", identityNumber ?? (object)DBNull.Value);
+        var pageSizeParam = new SqlParameter("@PageSize", 8);
+        var pageNumberParam = new SqlParameter("@PageNumber", pageNumber);
+        var maxPagesParam = new SqlParameter("@MaxPages", SqlDbType.Int) { Direction = ParameterDirection.Output };
 
-        return Tuple.Create(descendants, maxPages);
+        var people = await _context.Persons.FromSqlRaw(
+            "EXEC [site].[GetDescendantsByIdentityNumber] @IdentityNumber, @PageSize, @PageNumber, @MaxPages OUTPUT",
+            identityNumberParam, pageSizeParam, pageNumberParam, maxPagesParam).ToListAsync();
+
+        // Retrieve the value of the output parameter
+        var maxPages = (int)maxPagesParam.Value;
+
+        return Tuple.Create(people, maxPages);
     }
 }

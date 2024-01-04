@@ -23,7 +23,10 @@ export class FamilyTreeApiService extends Service {
       url += `?identityNumber=${identityNumber}`;
     }
 
-    if (pageNumber) {
+    if (pageNumber && identityNumber) {
+      url += `&pageNumber=${pageNumber}`;
+    }
+    else if (pageNumber && !identityNumber) {
       url += `?pageNumber=${pageNumber}`;
     }
 

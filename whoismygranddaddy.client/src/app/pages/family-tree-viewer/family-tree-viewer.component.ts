@@ -5,6 +5,8 @@ import {TreeViewerComponent} from "../../components/tree-viewer/tree-viewer.comp
 import {EMPTY, finalize } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import {Page} from "../page";
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-family-tree-viewer',
@@ -29,7 +31,7 @@ export class FamilyTreeViewerComponent extends Page implements OnInit {
     this.page.hasError = false;
     this.page.error = '';
 
-    this.familyTreeService.getDescendants(this.searchByIdentityNumber, 1)
+    this.familyTreeService.getDescendants(this.searchByIdentityNumber, this.page.paging.pageNumber)
       .pipe(
         catchError((errorCtx) => {
           this.page.hasError = true;
@@ -42,8 +44,12 @@ export class FamilyTreeViewerComponent extends Page implements OnInit {
         })
       )
       .subscribe((result) => {
+        console.log(JSON.stringify(result));
         this.familyMembers = result.data;
         this.TreeViewer!.loadFamilyMembers(this.familyMembers);
+
+        this.page.paging.maxPages = result.maxPages;
+        this.page.paging.pageNumber = result.page;
       });
 
   }
@@ -56,4 +62,26 @@ export class FamilyTreeViewerComponent extends Page implements OnInit {
     this.searchByIdentityNumber = null;
     this.loadFamilyMembers();
   }
+
+  nextPage(): void {
+    if (this.page.paging.pageNumber >= this.page.paging.maxPages) {
+      return;
+    }
+
+    this.page.paging.pageNumber++;
+    this.loadFamilyMembers();
+  }
+
+  prevPage(): void {
+    if (this.page.paging.pageNumber <= 1)
+    {
+      return;
+    }
+
+    this.page.paging.pageNumber--;
+    this.loadFamilyMembers();
+  }
+
+  protected readonly faChevronLeft = faChevronLeft;
+  protected readonly faChevronRight = faChevronRight;
 }

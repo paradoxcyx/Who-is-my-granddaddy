@@ -3,7 +3,11 @@
   protected page = {
     isLoading: false,
     hasError: false,
-    error: ''
+    error: '',
+    paging: {
+      pageNumber: 1,
+      maxPages: 1
+    }
   }
 
   abstract search(): void;

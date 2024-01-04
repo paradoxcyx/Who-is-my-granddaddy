@@ -4,13 +4,14 @@ import {FamilyTreeViewerComponent} from "./family-tree-viewer/family-tree-viewer
 import {ComponentsModule} from "../components/components.module";
 import { FormsModule } from '@angular/forms';
 import { RootAscendantComponent } from './root-ascendant/root-ascendant.component';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @NgModule({
   declarations: [FamilyTreeViewerComponent, RootAscendantComponent],
   imports: [
     CommonModule,
     ComponentsModule,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule
 
   ],
   exports: [FamilyTreeViewerComponent]

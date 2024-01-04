@@ -1,4 +1,5 @@
-﻿using WhoIsMyGranddaddy.Data.Entities;
+﻿using WhoIsMyGranddaddy.Data.Database;
+using WhoIsMyGranddaddy.Data.Entities;
 
 namespace WhoIsMyGranddaddy.Data.Repositories;
 
