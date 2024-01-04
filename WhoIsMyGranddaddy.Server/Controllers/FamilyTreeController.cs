@@ -41,14 +41,22 @@ public class FamilyTreeController : ControllerBase
     }
     
     [HttpGet("GetDescendants")]
-    public async Task<IActionResult> GetDescendants(string? identityNumber)
+    public async Task<IActionResult> GetDescendants(string? identityNumber, int? pageNumber)
     {
         try
         {
-            var descendants = await _familyTreeService.GetDescendants(identityNumber);
+            var (descendants, maxPages) = await _familyTreeService.GetDescendants(identityNumber);
 
-            return Ok(new GenericResponseModel<List<FamilyMemberModel>>(true, "Descendants successfully retrieved",
-                descendants));
+            var response = new GenericResponseModel<List<FamilyMemberModel>>
+            {
+                Success = true,
+                Message = "Descendants successfully retrieved",
+                Data = descendants,
+                Page = pageNumber,
+                MaxPages = maxPages
+            };
+            
+            return Ok(response);
         }
         catch (InvalidOperationException oe)
         {

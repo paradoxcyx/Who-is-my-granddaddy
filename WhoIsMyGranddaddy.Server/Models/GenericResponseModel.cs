@@ -2,6 +2,10 @@
 
 public class GenericResponseModel<T>
 {
+    public GenericResponseModel()
+    {
+    }
+
     public GenericResponseModel(bool success, string message, T data)
     {
         Success = success;
@@ -12,4 +16,8 @@ public class GenericResponseModel<T>
     public bool Success { get; set; }
     public string Message { get; set; }
     public T Data { get; set; }
+    
+    public int? Page { get; set; }
+    
+    public int? MaxPages { get; set; }
 }

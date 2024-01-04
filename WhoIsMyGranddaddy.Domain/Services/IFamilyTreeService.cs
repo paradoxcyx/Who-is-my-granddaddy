@@ -15,7 +15,7 @@ public interface IFamilyTreeService
     /// </summary>
     /// <param name="identityNumber">The identity number</param>
     /// <returns>List of family descendants</returns>
-    Task<List<FamilyMemberModel>> GetDescendants(string? identityNumber);
+    Task<Tuple<List<FamilyMemberModel>, int>> GetDescendants(string? identityNumber, int pageNumber = 1);
 
     /// <summary>
     /// Retrieving root ascendants for specified Identity Number

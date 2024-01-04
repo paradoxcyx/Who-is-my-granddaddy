@@ -71,7 +71,7 @@ public class FamilyTreeService : IFamilyTreeService
         return familyMembers;
     }
     
-    public async Task<List<FamilyMemberModel>> GetDescendants(string? identityNumber = null)
+    public async Task<Tuple<List<FamilyMemberModel>, int>> GetDescendants(string? identityNumber = null, int pageNumber = 1)
     {
         //Only verify the person if identity number filtering is applied
         if (!string.IsNullOrEmpty(identityNumber))
@@ -84,9 +84,9 @@ public class FamilyTreeService : IFamilyTreeService
 
         var isFiltered = !string.IsNullOrEmpty(identityNumber);
         
-        var people = await _personRepository.GetDescendantsByIdentityNumberAsync(identityNumber);
+        var (people, maxPages) = await _personRepository.GetDescendantsByIdentityNumberAsync(identityNumber, pageNumber);
         
-        return BuildFamilyTree(people, isFiltered, identityNumber);
+        return Tuple.Create(BuildFamilyTree(people, isFiltered, identityNumber), maxPages);
     }
     
     public async Task<List<FamilyMemberModel>> GetRootAscendants(string identityNumber)

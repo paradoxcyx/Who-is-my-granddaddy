@@ -29,7 +29,7 @@ export class FamilyTreeViewerComponent extends Page implements OnInit {
     this.page.hasError = false;
     this.page.error = '';
 
-    this.familyTreeService.getDescendants(this.searchByIdentityNumber)
+    this.familyTreeService.getDescendants(this.searchByIdentityNumber, 1)
       .pipe(
         catchError((errorCtx) => {
           this.page.hasError = true;

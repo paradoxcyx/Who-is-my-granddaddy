@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System.Data;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using WhoIsMyGranddaddy.Data.Entities;
 
@@ -64,14 +65,37 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.Restrict);
     }
 
-    // Define the stored procedure method
-    [DbFunction("GetDescendantsByIdentityNumber", schema: "site")]
-    public IQueryable<Person> GetDescendantsByIdentityNumber(string? idNumber)
+    /// <summary>
+    /// Stored Procedure execution to retrieve Descendants in a tree (Identity number specified or not)
+    /// </summary>
+    /// <param name="identityNumber">The identity number</param>
+    /// <param name="pageNumber">The page number</param>
+    /// <returns></returns>
+    //[DbFunction("GetDescendantsByIdentityNumber", schema: "site")]
+    public Tuple<IQueryable<Person>, int> GetDescendantsByIdentityNumber(string? identityNumber, int pageNumber)
     {
-        var parameter = new SqlParameter("@IdentityNumber", string.IsNullOrEmpty(idNumber) ? DBNull.Value : idNumber);
+        var idParameter = new SqlParameter("@IdentityNumber", string.IsNullOrEmpty(identityNumber) ? DBNull.Value : (object)identityNumber);
+        var pageSizeParameter = new SqlParameter("@PageSize", 8);
+        var pageNumberParameter = new SqlParameter("@PageNumber", pageNumber);
+
+        var maxPagesParameter = new SqlParameter
+        {
+            ParameterName = "@MaxPages",
+            SqlDbType = SqlDbType.Int,
+            Direction = ParameterDirection.Output
+        };
+
+        var persons = Set<Person>()
+            .FromSqlInterpolated(
+                $"[site].[GetDescendantsByIdentityNumber] {idParameter}, {pageSizeParameter}, {pageNumberParameter}, {maxPagesParameter}");
         
-        return Set<Person>().FromSqlInterpolated($"[site].[GetDescendantsByIdentityNumber] {parameter}");
+
+        // Retrieve the value of the output parameter
+        var maxPages = (int)maxPagesParameter.Value;
+
+        return Tuple.Create(persons, maxPages);
     }
+
     
     // Define the stored procedure method
     [DbFunction("GetRootAscendantsByIdentityNumber", schema: "site")]

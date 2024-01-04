@@ -29,9 +29,12 @@ public class PersonRepository : IPersonRepository
         return rootAscendantsQuery.ToListAsync();
     }
 
-    public Task<List<Person>> GetDescendantsByIdentityNumberAsync(string? identityNumber)
+    public async Task<Tuple<List<Person>, int>> GetDescendantsByIdentityNumberAsync(string? identityNumber, int pageNumber = 1)
     {
-        var descendantsQuery = _context.GetDescendantsByIdentityNumber(identityNumber);
-        return descendantsQuery.ToListAsync();
+        var (query, maxPages) = _context.GetDescendantsByIdentityNumber(identityNumber, pageNumber);
+        
+        var descendants = await query.ToListAsync();
+
+        return Tuple.Create(descendants, maxPages);
     }
 }
