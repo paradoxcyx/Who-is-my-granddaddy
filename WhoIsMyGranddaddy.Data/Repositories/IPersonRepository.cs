@@ -1,5 +1,4 @@
-﻿using WhoIsMyGranddaddy.Data.Database;
-using WhoIsMyGranddaddy.Data.Entities;
+﻿using WhoIsMyGranddaddy.Data.Entities;
 
 namespace WhoIsMyGranddaddy.Data.Repositories;
 
@@ -24,6 +23,7 @@ public interface IPersonRepository
     /// Get the descendants for a specific ID Number
     /// </summary>
     /// <param name="identityNumber">The identity number</param>
+    /// <param name="pageNumber">The page number</param>
     /// <returns></returns>
     public Task<Tuple<List<Person>, int>> GetDescendantsByIdentityNumberAsync(string? identityNumber, int pageNumber = 1);
 }

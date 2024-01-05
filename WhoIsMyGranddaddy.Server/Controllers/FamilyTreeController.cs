@@ -41,12 +41,13 @@ public class FamilyTreeController : ControllerBase
     }
     
     [HttpGet("GetDescendants")]
-    public async Task<IActionResult> GetDescendants(string? identityNumber, int? pageNumber)
+    public async Task<IActionResult> GetDescendants(string? identityNumber, int pageNumber)
     {
         try
         {
-            var (descendants, maxPages) = await _familyTreeService.GetDescendants(identityNumber);
+            var (descendants, maxPages) = await _familyTreeService.GetDescendants(identityNumber, pageNumber);
 
+            
             var response = new GenericResponseModel<List<FamilyMemberModel>>
             {
                 Success = true,
