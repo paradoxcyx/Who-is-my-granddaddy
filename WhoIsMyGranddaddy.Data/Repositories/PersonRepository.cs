@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Data;
+using System.Runtime.CompilerServices;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using WhoIsMyGranddaddy.Data.Database;
 using WhoIsMyGranddaddy.Data.Entities;
 
@@ -7,6 +10,7 @@ namespace WhoIsMyGranddaddy.Data.Repositories;
 public class PersonRepository : IPersonRepository
 {
     private readonly AppDbContext _context;
+    private const int PageSize = 8;
     
     public PersonRepository(AppDbContext context)
     {
@@ -17,21 +21,32 @@ public class PersonRepository : IPersonRepository
     {
         return await _context.Persons.FirstOrDefaultAsync(x => x.IdentityNumber == identityNumber);
     }
-    public async Task<List<Person>> GetPersonsAsync()
-    {
-        var dbPersons = await _context.Persons.OrderBy(x => x.BirthDate).ToListAsync();
-        return dbPersons;
-    }
-
+    
     public Task<List<Person>> GetRootAscendantsByIdentityNumberAsync(string identityNumber)
     {
-        var rootAscendantsQuery = _context.GetRootAscendantsByIdentityNumber(identityNumber);
-        return rootAscendantsQuery.ToListAsync();
+        var identityNumberParam = new SqlParameter("@IdentityNumber", identityNumber);
+        
+        return _context.Persons.FromSqlInterpolated($"EXEC [site].[GetRootAscendantsByIdentityNumber] {identityNumberParam}").ToListAsync();
     }
 
-    public Task<List<Person>> GetDescendantsByIdentityNumberAsync(string? identityNumber)
+    public async Task<Tuple<List<PersonWithPartner>, int>> GetDescendantsByIdentityNumberAsync(string? identityNumber, int pageNumber = 1)
     {
-        var descendantsQuery = _context.GetDescendantsByIdentityNumber(identityNumber);
-        return descendantsQuery.ToListAsync();
+        var identityNumberParam = new SqlParameter("@IdentityNumber", identityNumber ?? (object)DBNull.Value);
+        var pageSizeParam = new SqlParameter("@PageSize", PageSize);
+        var pageNumberParam = new SqlParameter("@PageNumber", pageNumber);
+        var maxPagesParam = new SqlParameter("@MaxPages", SqlDbType.Int) { Direction = ParameterDirection.Output };
+
+        const string query = "EXEC [site].[GetDescendantsByIdentityNumber] @IdentityNumber, @PageSize, @PageNumber, @MaxPages OUTPUT";
+
+        var people = await _context.PersonsWithPartner
+            .FromSqlInterpolated(FormattableStringFactory.Create(query, identityNumberParam, pageSizeParam, pageNumberParam, maxPagesParam))
+            .ToListAsync();
+
+        // Retrieve the value of the output parameter
+        var maxPages = (int)maxPagesParam.Value;
+
+        return Tuple.Create(people, maxPages);
     }
+
+
 }

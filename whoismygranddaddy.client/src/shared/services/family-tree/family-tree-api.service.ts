@@ -16,13 +16,20 @@ export class FamilyTreeApiService extends Service {
     return this.httpClient.get<GenericResponseModel<FamilyMember[]>>(`${this.baseApiUrl}/familytree/getRootAscendants?identityNumber=${identityNumber}`)
   }
 
-  getDescendants(identityNumber: string | null) {
+  getDescendants(identityNumber: string | null, pageNumber: number | null) {
     let url = `${this.baseApiUrl}/familytree/getDescendants`;
 
     if (identityNumber) {
       url += `?identityNumber=${identityNumber}`;
-
     }
+
+    if (pageNumber && identityNumber) {
+      url += `&pageNumber=${pageNumber}`;
+    }
+    else if (pageNumber && !identityNumber) {
+      url += `?pageNumber=${pageNumber}`;
+    }
+
     return this.httpClient.get<GenericResponseModel<FamilyMember[]>>(url);
   }
 }

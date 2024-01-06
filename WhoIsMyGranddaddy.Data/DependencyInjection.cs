@@ -13,5 +13,6 @@ public static class DependencyInjection
             options.UseSqlServer(connectionString));
 
         services.AddScoped<IPersonRepository, PersonRepository>();
+        
     }
 }

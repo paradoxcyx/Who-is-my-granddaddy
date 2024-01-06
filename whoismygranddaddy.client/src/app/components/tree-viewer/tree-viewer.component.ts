@@ -67,4 +67,9 @@ export class TreeViewerComponent implements OnInit {
     this.familyTree.load(familyMembers);
   }
 
+  clearFamilyTree() {
+    this.initFamilyTree();
+    this.initTemplate();
+  }
+
 }

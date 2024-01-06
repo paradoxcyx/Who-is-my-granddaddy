@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System.Data;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using WhoIsMyGranddaddy.Data.Entities;
 
@@ -10,6 +11,8 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<PersonWithPartner>().HasNoKey();
+        
         // Define schema
         modelBuilder.HasDefaultSchema("site");
 
@@ -63,23 +66,8 @@ public class AppDbContext : DbContext
             .HasForeignKey(p => p.MotherId)
             .OnDelete(DeleteBehavior.Restrict);
     }
-
-    // Define the stored procedure method
-    [DbFunction("GetDescendantsByIdentityNumber", schema: "site")]
-    public IQueryable<Person> GetDescendantsByIdentityNumber(string? idNumber)
-    {
-        var parameter = new SqlParameter("@IdentityNumber", string.IsNullOrEmpty(idNumber) ? DBNull.Value : idNumber);
-        
-        return Set<Person>().FromSqlInterpolated($"[site].[GetDescendantsByIdentityNumber] {parameter}");
-    }
-    
-    // Define the stored procedure method
-    [DbFunction("GetRootAscendantsByIdentityNumber", schema: "site")]
-    public IQueryable<Person> GetRootAscendantsByIdentityNumber(string idNumber)
-    {
-        var parameter = new SqlParameter("@IdentityNumber", idNumber);
-        return Set<Person>().FromSqlInterpolated($"[site].[GetRootAscendantsByIdentityNumber] {parameter}");
-    }
     
     public DbSet<Person> Persons { get; set; }
+    
+    public DbSet<PersonWithPartner> PersonsWithPartner { get; set; }
 }
