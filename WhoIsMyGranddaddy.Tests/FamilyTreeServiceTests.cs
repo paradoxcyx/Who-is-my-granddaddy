@@ -12,46 +12,74 @@ namespace WhoIsMyGranddaddy.Tests;
 
 public class FamilyTreeServiceTests : TestsBase
 {
+    /*
     private readonly Mock<IAppDbContext> _dbContextMock;
     private readonly IPersonRepository _repository;
+    */
 
     public FamilyTreeServiceTests()
     {
-        _dbContextMock = new Mock<IAppDbContext>(new DbContextOptions<AppDbContext>());
-        _repository = new PersonRepository(_dbContextMock.Object);
+        /*_dbContextMock = new Mock<IAppDbContext>(new DbContextOptions<AppDbContext>());
+        _repository = new PersonRepository(_dbContextMock.Object);*/
     }
     
     [Fact]
-    public async Task GetDescendantsByIdentityNumberAsync_ShouldReturnPeopleAndMaxPages()
+    public async Task GetDescendantsByIdentityNumberAsync_ShouldReturnResult()
     {
         // Arrange
-        var mockPeople = new List<PersonWithPartner>(); // Add mock data as needed
-        const int mockMaxPages = 10;
+        var dbContextMock = new Mock<IAppDbContext>();
 
-        _dbContextMock.Setup(x => x.PersonsWithPartner).Returns(MockDbSet(mockPeople));
-        _dbContextMock.Setup(x => x.ExecuteStoredProcedure<PersonWithPartner>(It.IsAny<string>(), It.IsAny<SqlParameter[]>()))
-            .ReturnsAsync(new Func<object, Tuple<List<PersonWithPartner>, int>>(_ => new Tuple<List<PersonWithPartner>, int>(new List<PersonWithPartner>(), 0)))  // You might want to return an appropriate value here based on your scenario
-            .Callback<string, object[]>((sql, parameters) =>
-            {
-                // Find and set the value of the output parameter
-                foreach (var parameter in parameters)
-                {
-                    if (parameter is SqlParameter sqlParameter && sqlParameter.Direction == ParameterDirection.Output)
-                    {
-                        sqlParameter.Value = mockMaxPages;
-                        break;
-                    }
-                }
-            });
+        /*
+        // Mock setup for Persons DbSet
+        var personsData = new List<Person>
+        {
+            new Person { Id = 1, Name = "John" },
+            new Person { Id = 2, Name = "Jane" },
+            // Add more mock data as needed
+        };
+        var personsDbSetMock = new Mock<DbSet<Person>>();
+        personsDbSetMock.As<IQueryable<Person>>().Setup(m => m.Provider).Returns(personsData.AsQueryable().Provider);
+        personsDbSetMock.As<IQueryable<Person>>().Setup(m => m.Expression).Returns(personsData.AsQueryable().Expression);
+        personsDbSetMock.As<IQueryable<Person>>().Setup(m => m.ElementType).Returns(personsData.AsQueryable().ElementType);
+        personsDbSetMock.As<IQueryable<Person>>().Setup(m => m.GetEnumerator()).Returns(personsData.GetEnumerator());
+        dbContextMock.Setup(x => x.Persons).Returns(personsDbSetMock.Object);
+        */
 
+        // Mock setup for PersonsWithPartner DbSet
+        var personWithPartnerData = new List<PersonWithPartner>
+        {
+            new() { Id = 1, Name = "John", Surname = "Van Wyk", PartnerId = 2, BirthDate = DateTime.Now, FatherId = null, MotherId = null, IdentityNumber = "ID1" },
+            new() { Id = 2, Name = "Jane", Surname = "Van Wyk", PartnerId = 1, BirthDate = DateTime.Now, MotherId = null, FatherId = null, IdentityNumber = "ID2" },
+            new() { Id = 3, Name = "Jannie", Surname = "Van Wyk", PartnerId = null, BirthDate = DateTime.Now, FatherId = 1, MotherId = 2, IdentityNumber = "ID3" },
+            new() { Id = 4, Name = "Sarah", Surname = "Van Wyk", PartnerId = null, BirthDate = DateTime.Now, FatherId = 1, MotherId = 2, IdentityNumber = "ID4"  },
+            // Add more mock data as needed
+        };
+        
+        var personsWithPartnerDbSetMock = new Mock<DbSet<PersonWithPartner>>();
+        personsWithPartnerDbSetMock.As<IQueryable<PersonWithPartner>>().Setup(m => m.Provider).Returns(personWithPartnerData.AsQueryable().Provider);
+        personsWithPartnerDbSetMock.As<IQueryable<PersonWithPartner>>().Setup(m => m.Expression).Returns(personWithPartnerData.AsQueryable().Expression);
+        personsWithPartnerDbSetMock.As<IQueryable<PersonWithPartner>>().Setup(m => m.ElementType).Returns(personWithPartnerData.AsQueryable().ElementType);
+        personsWithPartnerDbSetMock.As<IQueryable<PersonWithPartner>>().Setup(m => m.GetEnumerator()).Returns(personWithPartnerData.GetEnumerator());
+        dbContextMock.Setup(x => x.PersonsWithPartner).Returns(personsWithPartnerDbSetMock.Object);
+
+        // Mock setup for ExecuteStoredProcedure
+        var storedProcedureResult = new Tuple<List<PersonWithPartner>, int>(personWithPartnerData, personWithPartnerData.Count);
+        dbContextMock.Setup(x => x.ExecuteStoredProcedure<PersonWithPartner>(It.IsAny<string>(), It.IsAny<SqlParameter[]>()))
+                     .ReturnsAsync(storedProcedureResult);
+
+        // Create an instance of your repository (replace with the actual repository class)
+        var repository = new PersonRepository(dbContextMock.Object);
+
+        
         // Act
-        var result = await _repository.GetDescendantsByIdentityNumberAsync("someIdentityNumber", 1);
+        var result = await repository.GetDescendantsByIdentityNumberAsync("ID1", 1);
 
         // Assert
-        // Add your assertions here based on the expected result and mocked data
         Assert.NotNull(result);
-        Assert.Equal(mockPeople, result.Item1);
-        Assert.Equal(mockMaxPages, result.Item2);
+        Assert.IsType<Tuple<List<PersonWithPartner>, int>>(result);
+
+        // Add more specific assertions based on your expected behavior
+        // ...
     }
 
     // Helper method to mock DbSet

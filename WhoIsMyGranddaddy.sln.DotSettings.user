@@ -9,7 +9,7 @@
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e8ebd2c0_002D86dd_002D4195_002D84e9_002Dda2c4834a133/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetDescendantFamilyTree_ShouldReturnCorrectFamilyTree" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::E9FB463F-7874-49C1-9092-9EB6E8E1D859::net6.0::WhoIsMyGranddaddy.Tests.FamilyTreeServiceTests.GetDescendantsByIdentityNumberAsync_ShouldReturnPeopleAndMaxPages&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::E9FB463F-7874-49C1-9092-9EB6E8E1D859::net6.0::WhoIsMyGranddaddy.Tests.FamilyTreeServiceTests.GetDescendantsByIdentityNumberAsync_ShouldReturnResult&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	</wpf:ResourceDictionary>
