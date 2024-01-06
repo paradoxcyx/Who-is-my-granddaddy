@@ -36,15 +36,15 @@ export class RootAscendantComponent extends Page implements OnInit {
   }
 
   loadRootAscendants() {
-    this.page.isLoading = true;
-    this.page.hasError = false;
-    this.page.error = '';
+    this.initLoading();
 
     this.familyTreeService.getRootAscendants(this.searchByIdentityNumber)
       .pipe(
         catchError((errorCtx) => {
-          this.page.hasError = true;
-          this.page.error = errorCtx.error.message;
+          this.showError(errorCtx.error.message);
+
+          this.rootAscendants = [];
+          this.TreeViewer!.clearFamilyTree();
 
           return EMPTY;
         }),

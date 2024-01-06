@@ -1,4 +1,4 @@
-﻿using WhoIsMyGranddaddy.Data.Entities;
+﻿using AutoMapper;
 using WhoIsMyGranddaddy.Data.Repositories;
 using WhoIsMyGranddaddy.Domain.Models;
 
@@ -7,70 +7,15 @@ namespace WhoIsMyGranddaddy.Domain.Services;
 public class FamilyTreeService : IFamilyTreeService
 {
     private readonly IPersonRepository _personRepository;
-
-    public FamilyTreeService(IPersonRepository personRepository)
+    private readonly IMapper _mapper;
+    
+    public FamilyTreeService(IPersonRepository personRepository, IMapper mapper)
     {
         _personRepository = personRepository;
+        _mapper = mapper;
     }
     
-    public async Task<List<FamilyMemberModel>> GetFamilyTreeAsync()
-    {
-        var people = (await _personRepository.GetPersonsAsync()).OrderBy(x => x.MotherId).ThenBy(x => x.FatherId).ToList();
-        
-        return BuildFamilyTree(people);
-    }
 
-    private static List<FamilyMemberModel> BuildFamilyTree(IReadOnlyList<Person> people, bool isFiltered = false, string? identityNumber = null)
-    {
-        //This logic is to accomodate for the library's way of displaying the family.
-        //Leaving the FatherID and MotherID's values here, causes the tree to display nothing
-        if (isFiltered && !string.IsNullOrEmpty(identityNumber))
-        {
-            var root = people.FirstOrDefault(x => x.IdentityNumber.Equals(identityNumber));
-
-            if (root != null)
-            {
-                root.FatherId = null;
-                root.MotherId = null;
-            }
-        }
-        
-        var familyMembers = people.Select(person => new FamilyMemberModel
-        {
-            Id = person.Id,
-            BirthDate = person.BirthDate,
-            IdentityNumber = person.IdentityNumber,
-            Fid = person.FatherId,
-            Mid = person.MotherId,
-            Name = person.Name,
-            Surname = person.Surname
-        }).ToList();
-
-        var familyMembersSet = new HashSet<FamilyMemberModel>(familyMembers);
-
-        foreach (var person in people)
-        {
-            if (person is not { FatherId: not null, MotherId: not null }) continue;
-            
-            var father = familyMembersSet.FirstOrDefault(y => y.Id == person.FatherId && y.Id != person.Id);
-            var mother = familyMembersSet.FirstOrDefault(y => y.Id == person.MotherId && y.Id != person.Id);
-
-            if (father == null || mother == null) continue;
-            
-            if (father.Pids == null || father.Pids.Length < 1)
-            {
-                father.Pids = new[] { mother.Id };
-            }
-
-            if (mother.Pids == null || mother.Pids.Length < 1)
-            {
-                mother.Pids = new[] { father.Id };
-            }
-        }
-
-        return familyMembers;
-    }
-    
     public async Task<Tuple<List<FamilyMemberModel>, int>> GetDescendants(string? identityNumber = null, int pageNumber = 1)
     {
         //Only verify the person if identity number filtering is applied
@@ -81,12 +26,11 @@ public class FamilyTreeService : IFamilyTreeService
             if (person == null)
                 throw new InvalidOperationException("This person does not exist!");
         }
-
-        var isFiltered = !string.IsNullOrEmpty(identityNumber);
-        
         var (people, maxPages) = await _personRepository.GetDescendantsByIdentityNumberAsync(identityNumber, pageNumber);
-        
-        return Tuple.Create(BuildFamilyTree(people, isFiltered, identityNumber), maxPages);
+
+        var familyTree = _mapper.Map<List<FamilyMemberModel>>(people);
+
+        return Tuple.Create(familyTree, maxPages);
     }
     
     public async Task<List<FamilyMemberModel>> GetRootAscendants(string identityNumber)
@@ -98,7 +42,9 @@ public class FamilyTreeService : IFamilyTreeService
         
         var people = await _personRepository.GetRootAscendantsByIdentityNumberAsync(identityNumber);
 
-        return BuildFamilyTree(people);
+        var familyTree = _mapper.Map<List<FamilyMemberModel>>(people);
+
+        return familyTree;
     }
     
 }

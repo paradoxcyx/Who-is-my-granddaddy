@@ -8,5 +8,7 @@ public static class DependencyInjection
     public static void AddDomain(this IServiceCollection services)
     {
         services.AddScoped<IFamilyTreeService, FamilyTreeService>();
+        
+        services.AddAutoMapper(typeof(DependencyInjection).Assembly);
     }
 }

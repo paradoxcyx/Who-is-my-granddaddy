@@ -25,5 +25,5 @@ public interface IPersonRepository
     /// <param name="identityNumber">The identity number</param>
     /// <param name="pageNumber">The page number</param>
     /// <returns></returns>
-    public Task<Tuple<List<Person>, int>> GetDescendantsByIdentityNumberAsync(string? identityNumber, int pageNumber = 1);
+    public Task<Tuple<List<PersonWithPartner>, int>> GetDescendantsByIdentityNumberAsync(string? identityNumber, int pageNumber = 1);
 }

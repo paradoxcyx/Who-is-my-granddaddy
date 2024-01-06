@@ -1,11 +1,16 @@
 using WhoIsMyGranddaddy.Data;
 using WhoIsMyGranddaddy.Domain;
+using WhoIsMyGranddaddy.Server.Attributes;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    // Register the global exception handler attribute
+    options.Filters.Add(new GlobalExceptionHandlerAttribute());
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -13,7 +18,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
-        builder => builder.WithOrigins("https://127.0.0.1:4200") // Add your Angular app's URL
+        policyBuilder => policyBuilder.WithOrigins("https://127.0.0.1:4200") // Add your Angular app's URL
             .AllowAnyHeader()
             .AllowAnyMethod());
 });

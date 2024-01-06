@@ -1,4 +1,4 @@
-﻿namespace WhoIsMyGranddaddy.Server.Models;
+﻿namespace WhoIsMyGranddaddy.Server.Shared.Models;
 
 public class GenericResponseModel<T>
 {

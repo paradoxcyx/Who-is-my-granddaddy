@@ -11,6 +11,8 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<PersonWithPartner>().HasNoKey();
+        
         // Define schema
         modelBuilder.HasDefaultSchema("site");
 
@@ -64,67 +66,8 @@ public class AppDbContext : DbContext
             .HasForeignKey(p => p.MotherId)
             .OnDelete(DeleteBehavior.Restrict);
     }
-
-    /*/// <summary>
-    /// Stored Procedure execution to retrieve Descendants in a tree (Identity number specified or not)
-    /// </summary>
-    /// <param name="identityNumber">The identity number</param>
-    /// <param name="pageNumber">The page number</param>
-    /// <returns></returns>
-    [DbFunction("GetDescendantsByIdentityNumber", schema: "site")]
-    public PersonResult GetDescendantsByIdentityNumber(string? identityNumber, int pageNumber)
-    {
-        
-        var idParameter = new SqlParameter("@IdentityNumber", string.IsNullOrEmpty(identityNumber) ? DBNull.Value : (object)identityNumber);
-        var pageSizeParameter = new SqlParameter("@PageSize", 8);
-        var pageNumberParameter = new SqlParameter("@PageNumber", pageNumber);
-
-        var maxPagesParameter = new SqlParameter
-        {
-            ParameterName = "@MaxPages",
-            SqlDbType = SqlDbType.Int,
-            Direction = ParameterDirection.Output
-        };
-
-        var persons = Set<Person>()
-            .FromSqlInterpolated(
-                $"[site].[GetDescendantsByIdentityNumber] {idParameter}, {pageSizeParameter}, {pageNumberParameter}, {maxPagesParameter}");
-
-        // Retrieve the value of the output parameter
-        var maxPages = (int)maxPagesParameter.Value;
-
-        return new PersonResult
-        {
-            Persons = persons,
-            MaxPages = maxPages
-        };
-    }
-    */
-
-    public IQueryable<Person> GetDescendantsByIdentityNumber(string? identityNumber, int pageSize, int pageNumber, out int maxPages)
-    {
-        var identityNumberParam = new SqlParameter("@IdentityNumber", SqlDbType.NVarChar) { Value = identityNumber ?? (object)DBNull.Value };
-        var pageSizeParam = new SqlParameter("@PageSize", SqlDbType.Int) { Value = pageSize };
-        var pageNumberParam = new SqlParameter("@PageNumber", SqlDbType.Int) { Value = pageNumber };
-        var maxPagesParam = new SqlParameter("@MaxPages", SqlDbType.Int) { Direction = ParameterDirection.Output };
-
-        var people = Persons.FromSqlRaw(
-            "EXEC [site].[GetDescendantsByIdentityNumber] @IdentityNumber, @PageSize, @PageNumber, @MaxPages OUTPUT",
-            identityNumberParam, pageSizeParam, pageNumberParam, maxPagesParam).ToList();
-
-        // Retrieve the value of the output parameter
-        maxPages = (int)maxPagesParam.Value;
-
-        return null;
-    }
-    
-    // Define the stored procedure method
-    [DbFunction("GetRootAscendantsByIdentityNumber", schema: "site")]
-    public IQueryable<Person> GetRootAscendantsByIdentityNumber(string idNumber)
-    {
-        var parameter = new SqlParameter("@IdentityNumber", idNumber);
-        return Set<Person>().FromSqlInterpolated($"[site].[GetRootAscendantsByIdentityNumber] {parameter}");
-    }
     
     public DbSet<Person> Persons { get; set; }
+    
+    public DbSet<PersonWithPartner> PersonsWithPartner { get; set; }
 }

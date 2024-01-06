@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhoIsMyGranddaddy.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhoIsMyGranddaddy.Domain", "WhoIsMyGranddaddy.Domain\WhoIsMyGranddaddy.Domain.csproj", "{0F57C58A-C847-4486-B168-C4DF53CB17ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhoIsMyGranddaddy.Server.Shared", "WhoIsMyGranddaddy.Server.Shared\WhoIsMyGranddaddy.Server.Shared.csproj", "{1630A890-26F0-4BF8-B452-310D14CE8BA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{0F57C58A-C847-4486-B168-C4DF53CB17ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F57C58A-C847-4486-B168-C4DF53CB17ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F57C58A-C847-4486-B168-C4DF53CB17ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1630A890-26F0-4BF8-B452-310D14CE8BA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1630A890-26F0-4BF8-B452-310D14CE8BA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1630A890-26F0-4BF8-B452-310D14CE8BA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1630A890-26F0-4BF8-B452-310D14CE8BA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,12 @@
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Server.Shared\bin\Debug\net6.0\WhoIsMyGranddaddy.Server.Shared.deps.json
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Server.Shared\bin\Debug\net6.0\WhoIsMyGranddaddy.Server.Shared.dll
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Server.Shared\bin\Debug\net6.0\WhoIsMyGranddaddy.Server.Shared.pdb
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Server.Shared\obj\Debug\net6.0\WhoIsMyGranddaddy.Server.Shared.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Server.Shared\obj\Debug\net6.0\WhoIsMyGranddaddy.Server.Shared.AssemblyInfoInputs.cache
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Server.Shared\obj\Debug\net6.0\WhoIsMyGranddaddy.Server.Shared.AssemblyInfo.cs
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Server.Shared\obj\Debug\net6.0\WhoIsMyGranddaddy.Server.Shared.csproj.CoreCompileInputs.cache
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Server.Shared\obj\Debug\net6.0\WhoIsMyGranddaddy.Server.Shared.sourcelink.json
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Server.Shared\obj\Debug\net6.0\WhoIsMyGranddaddy.Server.Shared.dll
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Server.Shared\obj\Debug\net6.0\refint\WhoIsMyGranddaddy.Server.Shared.dll
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Server.Shared\obj\Debug\net6.0\WhoIsMyGranddaddy.Server.Shared.pdb
+D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Server.Shared\obj\Debug\net6.0\ref\WhoIsMyGranddaddy.Server.Shared.dll

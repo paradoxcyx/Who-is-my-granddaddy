@@ -34,7 +34,7 @@ public class PersonRepository : IPersonRepository
         return _context.Persons.FromSqlInterpolated($"EXEC [site].[GetRootAscendantsByIdentityNumber] {identityNumberParam}").ToListAsync();
     }
 
-    public async Task<Tuple<List<Person>, int>> GetDescendantsByIdentityNumberAsync(string? identityNumber, int pageNumber = 1)
+    public async Task<Tuple<List<PersonWithPartner>, int>> GetDescendantsByIdentityNumberAsync(string? identityNumber, int pageNumber = 1)
     {
         var identityNumberParam = new SqlParameter("@IdentityNumber", identityNumber ?? (object)DBNull.Value);
         var pageSizeParam = new SqlParameter("@PageSize", PageSize);  // Assuming PageSize is defined somewhere
@@ -43,7 +43,7 @@ public class PersonRepository : IPersonRepository
 
         const string query = "EXEC [site].[GetDescendantsByIdentityNumber] @IdentityNumber, @PageSize, @PageNumber, @MaxPages OUTPUT";
 
-        var people = await _context.Persons
+        var people = await _context.PersonsWithPartner
             .FromSqlInterpolated(FormattableStringFactory.Create(query, identityNumberParam, pageSizeParam, pageNumberParam, maxPagesParam))
             .ToListAsync();
 

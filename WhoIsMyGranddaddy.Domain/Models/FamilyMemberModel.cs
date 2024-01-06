@@ -9,7 +9,9 @@ public class FamilyMemberModel
     public string Name { get; init; }
     public string Surname { get; init; }
     public string FullName => $"{Name} {Surname}";
+    
     public string IdentityNumber { get; set; }
+    
     public DateTime BirthDate { get; set; }
 }
 

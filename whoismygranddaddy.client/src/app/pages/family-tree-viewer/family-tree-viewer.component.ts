@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {FamilyTreeApiService} from "../../../shared/services/family-tree/family-tree-api.service";
 import {FamilyMember} from "../../../shared/interfaces/family-member";
 import {TreeViewerComponent} from "../../components/tree-viewer/tree-viewer.component";
@@ -17,7 +17,7 @@ import {PagedFamilyMembers} from "../../../shared/interfaces/paged-family-member
 export class FamilyTreeViewerComponent extends Page implements OnInit {
   @ViewChild('treeviewer') TreeViewer: TreeViewerComponent | undefined;
 
-  familyMembers: FamilyMember[] = [];
+  //Using this paged family members array allows us to better manipulate family members by page number
   pagedFamilyMembers: PagedFamilyMembers[] = [];
 
   searchByIdentityNumber: string | null = null;
@@ -36,6 +36,7 @@ export class FamilyTreeViewerComponent extends Page implements OnInit {
       .pipe(
         catchError((errorCtx) => {
           this.showError(errorCtx.error.message);
+          this.TreeViewer!.clearFamilyTree();
 
           return EMPTY;
         }),
@@ -65,23 +66,26 @@ export class FamilyTreeViewerComponent extends Page implements OnInit {
     this.pagedFamilyMembers.push({
       page: page,
       familyMembers: familyMembers
-    })
+    });
 
-    console.log("PUSH" + JSON.stringify(this.pagedFamilyMembers));
   }
 
   removeLatestFamilyMembers() {
     this.pagedFamilyMembers.pop();
-
-    console.log("POP: " + JSON.stringify(this.pagedFamilyMembers));
   }
 
   override search(): void {
+    this.page.paging.pageNumber = 1;
+    this.pagedFamilyMembers = [];
+
     this.loadFamilyMembers();
   }
 
   override clearSearch(): void {
+    this.page.paging.pageNumber = 1;
+    this.pagedFamilyMembers = [];
     this.searchByIdentityNumber = null;
+
     this.loadFamilyMembers();
   }
 
@@ -106,6 +110,50 @@ export class FamilyTreeViewerComponent extends Page implements OnInit {
     //decreasing the page number and loading the previous page of family members
     this.page.paging.pageNumber--;
     this.loadFamilyMembers(false);
+  }
+
+  sanitiseFamilyMembers(): void {
+    // Loop through each family member in the paged list
+    this.pagedFamilyMembers.forEach((fm, ix) => {
+
+      if (ix == 0) {
+        let firstFamilyMember = fm.familyMembers[0];
+
+        if (firstFamilyMember) {
+          firstFamilyMember.mid = undefined;
+          firstFamilyMember.fid = undefined;
+        }
+      }
+      // Loop through each member of the family
+      fm.familyMembers.forEach((m) => {
+        // Check if both father id (fid) and mother id (mid) are present
+        if (m.fid && m.mid) {
+          // Find all potential fathers and mothers in the flattened family members list
+          const fathers = this.pagedFamilyMembers.flatMap((pfm) => pfm.familyMembers)
+            .filter((f) => f.id == m.fid && f.id != m.id);
+
+          const mothers = this.pagedFamilyMembers.flatMap((pfm) => pfm.familyMembers)
+            .filter((f) => f.id == m.mid && f.id != m.id);
+
+          // Check if both fathers and mothers exist
+          if (fathers.length > 0 && mothers.length > 0) {
+            // Take the first father and mother from the filtered lists
+            const father = fathers[0];
+            const mother = mothers[0];
+
+            // Update father's pids if conditions are met
+            if (father && (!father.pids || father.pids.length < 1) && mother) {
+              father.pids = [mother.id];
+            }
+
+            // Update mother's pids if conditions are met
+            if (mother && (!mother.pids || mother.pids.length < 1) && father) {
+              mother.pids = [father.id];
+            }
+          }
+        }
+      });
+    });
   }
 
   protected readonly faChevronLeft = faChevronLeft;
