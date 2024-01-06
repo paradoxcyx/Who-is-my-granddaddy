@@ -35,8 +35,11 @@ public class FamilyTreeController : ControllerBase
             Success = true,
             Message = "Descendants successfully retrieved",
             Data = descendants,
-            Page = pageNumber,
-            MaxPages = maxPages
+            Paging = new Paging
+            {
+                Page = pageNumber,
+                MaxPages = maxPages
+            }
         };
         
         return Ok(response);

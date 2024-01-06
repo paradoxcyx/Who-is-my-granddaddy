@@ -20,4 +20,12 @@ public class GenericResponseModel<T>
     public int? Page { get; set; }
     
     public int? MaxPages { get; set; }
+    
+    public Paging? Paging { get; set; }
+}
+
+public class Paging
+{
+    public int Page { get; set; }
+    public int MaxPages { get; set; }
 }

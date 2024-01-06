@@ -16,6 +16,7 @@ export class TreeViewerComponent implements OnInit {
   constructor() {
   }
 
+  //Instantiating the family tree
   initFamilyTree() {
     const tree = document.getElementById('tree');
     if (tree) {
@@ -40,11 +41,6 @@ export class TreeViewerComponent implements OnInit {
     FamilyTree.templates['family'].size = [200, 120];
     FamilyTree.templates['family'].defs = '';
 
-    FamilyTree.templates['family_male'] = Object.assign({}, FamilyTree.templates['family']);
-    FamilyTree.templates['family_male'].node = '<circle cx="100" cy="100" r="100" fill="#039be5" stroke-width="1" stroke="#aeaeae"></circle>';
-    FamilyTree.templates['family_female'] = Object.assign({}, FamilyTree.templates['family']);
-    FamilyTree.templates['family_female'].node = '<circle cx="100" cy="100" r="100" fill="#FF46A3" stroke-width="1" stroke="#aeaeae"></circle';
-
     FamilyTree.templates['family'].ripple = {
       radius: 0,
       color: "none",
@@ -60,14 +56,15 @@ export class TreeViewerComponent implements OnInit {
   }
 
   loadFamilyMembers(familyMembers: FamilyMember[]) {
-    this.initFamilyTree();
-    this.initTemplate();
+    this.clearFamilyTree();
 
     //Loading the family members into the tree view
     this.familyTree.load(familyMembers);
   }
 
   clearFamilyTree() {
+    //Ensure that we initialize the family tree first before populating it with data
+    //I have experienced weird issues with this library when attempting to populate while an existing instance is active
     this.initFamilyTree();
     this.initTemplate();
   }

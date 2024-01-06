@@ -9,12 +9,12 @@ public interface IAppDbContext
     /// <summary>
     /// Persons DbSet
     /// </summary>
-    public DbSet<Person> Persons { get; set; }
+    public DbSet<Person> Persons { get; }
     
     /// <summary>
     /// Custom Persons DbSet used for retrieving descendants
     /// </summary>
-    public DbSet<PersonWithPartner> PersonsWithPartner { get; set; }
+    public DbSet<PersonWithPartner> PersonsWithPartner { get; }
     
     /// <summary>
     /// Function to execute a stored procedure and return results
