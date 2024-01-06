@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WhoIsMyGranddaddy.Server.Shared")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+db30be66340f3c00ac7f1e83d62e5dc198cf4fb7")]
 [assembly: System.Reflection.AssemblyProductAttribute("WhoIsMyGranddaddy.Server.Shared")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WhoIsMyGranddaddy.Server.Shared")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

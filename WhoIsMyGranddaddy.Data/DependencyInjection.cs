@@ -9,7 +9,7 @@ public static class DependencyInjection
 {
     public static void AddData(this IServiceCollection services, string connectionString)
     {
-        services.AddDbContext<AppDbContext>(options =>
+        services.AddDbContext<IAppDbContext, AppDbContext>(options =>
             options.UseSqlServer(connectionString));
 
         services.AddScoped<IPersonRepository, PersonRepository>();

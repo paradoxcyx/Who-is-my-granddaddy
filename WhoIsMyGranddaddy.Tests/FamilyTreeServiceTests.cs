@@ -1,8 +1,100 @@
 
+using System.Data;
+using System.Data.Common;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Moq;
+using WhoIsMyGranddaddy.Data.Database;
+using WhoIsMyGranddaddy.Data.Entities;
+using WhoIsMyGranddaddy.Data.Repositories;
+
 namespace WhoIsMyGranddaddy.Tests;
 
 public class FamilyTreeServiceTests : TestsBase
 {
+    private readonly Mock<IAppDbContext> _dbContextMock;
+    private readonly IPersonRepository _repository;
+
+    public FamilyTreeServiceTests()
+    {
+        _dbContextMock = new Mock<IAppDbContext>(new DbContextOptions<AppDbContext>());
+        _repository = new PersonRepository(_dbContextMock.Object);
+    }
+    
+    [Fact]
+    public async Task GetDescendantsByIdentityNumberAsync_ShouldReturnPeopleAndMaxPages()
+    {
+        // Arrange
+        var mockPeople = new List<PersonWithPartner>(); // Add mock data as needed
+        const int mockMaxPages = 10;
+
+        _dbContextMock.Setup(x => x.PersonsWithPartner).Returns(MockDbSet(mockPeople));
+        _dbContextMock.Setup(x => x.ExecuteStoredProcedure<PersonWithPartner>(It.IsAny<string>(), It.IsAny<SqlParameter[]>()))
+            .ReturnsAsync(new Func<object, Tuple<List<PersonWithPartner>, int>>(_ => new Tuple<List<PersonWithPartner>, int>(new List<PersonWithPartner>(), 0)))  // You might want to return an appropriate value here based on your scenario
+            .Callback<string, object[]>((sql, parameters) =>
+            {
+                // Find and set the value of the output parameter
+                foreach (var parameter in parameters)
+                {
+                    if (parameter is SqlParameter sqlParameter && sqlParameter.Direction == ParameterDirection.Output)
+                    {
+                        sqlParameter.Value = mockMaxPages;
+                        break;
+                    }
+                }
+            });
+
+        // Act
+        var result = await _repository.GetDescendantsByIdentityNumberAsync("someIdentityNumber", 1);
+
+        // Assert
+        // Add your assertions here based on the expected result and mocked data
+        Assert.NotNull(result);
+        Assert.Equal(mockPeople, result.Item1);
+        Assert.Equal(mockMaxPages, result.Item2);
+    }
+
+    // Helper method to mock DbSet
+    private static DbSet<T> MockDbSet<T>(IEnumerable<T> data) where T : class
+    {
+        var queryable = data.AsQueryable();
+        var dbSetMock = new Mock<DbSet<T>>();
+        dbSetMock.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryable.Provider);
+        dbSetMock.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
+        dbSetMock.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
+        dbSetMock.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
+
+        return dbSetMock.Object;
+    }
+
+    private static Task SetOutputParameterAsync(DbParameterCollection parameters, string parameterName, object value)
+    {
+        foreach (SqlParameter parameter in parameters)
+        {
+            if (parameter.ParameterName == parameterName)
+            {
+                parameter.Value = value;
+                return Task.CompletedTask;
+            }
+        }
+
+        throw new ArgumentException($"Parameter with name {parameterName} not found.");
+    }
+    
+    // Helper method to create a mock DbSet
+    private static DbSet<T> MockDbSet<T>(List<T> data) where T : class
+    {
+        var queryableData = data.AsQueryable();
+
+        var mockSet = new Mock<DbSet<T>>();
+        mockSet.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryableData.Provider);
+        mockSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryableData.Expression);
+        mockSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryableData.ElementType);
+        mockSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(queryableData.GetEnumerator());
+
+        return mockSet.Object;
+    }
+    
     /// <summary>
     /// Test case to verify that a family tree is ordered by birthdate and that the correct people is in the correct positions
     /// </summary>
