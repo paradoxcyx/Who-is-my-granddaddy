@@ -112,50 +112,6 @@ export class FamilyTreeViewerComponent extends Page implements OnInit {
     this.loadFamilyMembers(false);
   }
 
-  sanitiseFamilyMembers(): void {
-    // Loop through each family member in the paged list
-    this.pagedFamilyMembers.forEach((fm, ix) => {
-
-      if (ix == 0) {
-        let firstFamilyMember = fm.familyMembers[0];
-
-        if (firstFamilyMember) {
-          firstFamilyMember.mid = undefined;
-          firstFamilyMember.fid = undefined;
-        }
-      }
-      // Loop through each member of the family
-      fm.familyMembers.forEach((m) => {
-        // Check if both father id (fid) and mother id (mid) are present
-        if (m.fid && m.mid) {
-          // Find all potential fathers and mothers in the flattened family members list
-          const fathers = this.pagedFamilyMembers.flatMap((pfm) => pfm.familyMembers)
-            .filter((f) => f.id == m.fid && f.id != m.id);
-
-          const mothers = this.pagedFamilyMembers.flatMap((pfm) => pfm.familyMembers)
-            .filter((f) => f.id == m.mid && f.id != m.id);
-
-          // Check if both fathers and mothers exist
-          if (fathers.length > 0 && mothers.length > 0) {
-            // Take the first father and mother from the filtered lists
-            const father = fathers[0];
-            const mother = mothers[0];
-
-            // Update father's pids if conditions are met
-            if (father && (!father.pids || father.pids.length < 1) && mother) {
-              father.pids = [mother.id];
-            }
-
-            // Update mother's pids if conditions are met
-            if (mother && (!mother.pids || mother.pids.length < 1) && father) {
-              mother.pids = [father.id];
-            }
-          }
-        }
-      });
-    });
-  }
-
   protected readonly faChevronLeft = faChevronLeft;
   protected readonly faChevronRight = faChevronRight;
 }

@@ -21,12 +21,7 @@ public class PersonRepository : IPersonRepository
     {
         return await _context.Persons.FirstOrDefaultAsync(x => x.IdentityNumber == identityNumber);
     }
-    public async Task<List<Person>> GetPersonsAsync()
-    {
-        var dbPersons = await _context.Persons.OrderBy(x => x.BirthDate).ToListAsync();
-        return dbPersons;
-    }
-
+    
     public Task<List<Person>> GetRootAscendantsByIdentityNumberAsync(string identityNumber)
     {
         var identityNumberParam = new SqlParameter("@IdentityNumber", identityNumber);
@@ -37,7 +32,7 @@ public class PersonRepository : IPersonRepository
     public async Task<Tuple<List<PersonWithPartner>, int>> GetDescendantsByIdentityNumberAsync(string? identityNumber, int pageNumber = 1)
     {
         var identityNumberParam = new SqlParameter("@IdentityNumber", identityNumber ?? (object)DBNull.Value);
-        var pageSizeParam = new SqlParameter("@PageSize", PageSize);  // Assuming PageSize is defined somewhere
+        var pageSizeParam = new SqlParameter("@PageSize", PageSize);
         var pageNumberParam = new SqlParameter("@PageNumber", pageNumber);
         var maxPagesParam = new SqlParameter("@MaxPages", SqlDbType.Int) { Direction = ParameterDirection.Output };
 
