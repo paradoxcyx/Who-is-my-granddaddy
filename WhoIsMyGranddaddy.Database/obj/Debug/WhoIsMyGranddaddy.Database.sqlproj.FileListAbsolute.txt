@@ -1,6 +1,0 @@
-D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Database\bin\Debug\WhoIsMyGranddaddy.Database.dacpac
-D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Database\bin\Debug\WhoIsMyGranddaddy.Database.dll
-D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Database\bin\Debug\WhoIsMyGranddaddy.Database.pdb
-D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Database\obj\Debug\WhoIsMyGranddaddy.Database.sqlproj.AssemblyReference.cache
-D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Database\obj\Debug\WhoIsMyGranddaddy.Database.dll
-D:\Projects\Personal\Who-is-my-granddaddy\WhoIsMyGranddaddy.Database\obj\Debug\WhoIsMyGranddaddy.Database.pdb

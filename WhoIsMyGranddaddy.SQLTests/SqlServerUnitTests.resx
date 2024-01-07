@@ -117,37 +117,407 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="checksumCondition1.Configuration" xml:space="preserve">
-    <value>Press to configure</value>
-  </metadata>
-  <data name="site_GetDescendantsByIdentityNumberTest_TestAction.SqlScript" xml:space="preserve">
-    <value>-- database unit test for site.GetDescendantsByIdentityNumber
-DECLARE @RC AS INT, @IdentityNumber AS NVARCHAR (MAX), @PageSize AS INT, @PageNumber AS INT, @MaxPages AS INT;
+  <data name="site_GetDescendantsByIdentityNumberTest_RecordCountShouldMatchPageSize_TestAction.SqlScript" xml:space="preserve">
+    <value>BEGIN TRANSACTION;
+-- Add necessary parameters for the test
+DECLARE @RC AS INT, 
+        @IdentityNumber AS NVARCHAR(MAX),
+        @PageSize AS INT,
+        @PageNumber AS INT,
+        @MaxPages AS INT,
+		@RecordCount AS INT;
 
-SELECT @RC = 0,
-       @IdentityNumber = 'ID1',
+
+-- Set input parameters for the stored procedure
+SELECT @IdentityNumber = NULL,
        @PageSize = 8,
        @PageNumber = 1;
 
-EXECUTE @RC = [site].[GetDescendantsByIdentityNumber] @IdentityNumber, @PageSize, @PageNumber, @MaxPages OUTPUT;
+	   -- Execute the stored procedure and store the result in a table variable
+DECLARE @Results TABLE (
+    Id INT,
+    RowNum INT,
+	FatherId INT,
+	MotherId INT,
+	Name NVARCHAR(MAX),
+	Surname NVARCHAR(MAX),
+	BirthDate DateTime2(7),
+	IdentityNumber NVARCHAR(MAX),
+	PartnerId INT
+    -- Add more columns as needed
+);
 
-SELECT @RC AS RC,
-       @MaxPages AS MaxPages;
+
+INSERT INTO @Results
+-- Execute the stored procedure
+EXECUTE @RC = [site].[GetDescendantsByIdentityNumber] 
+            @IdentityNumber, @PageSize, @PageNumber, @MaxPages OUTPUT;
 
 
-</value>
+-- Step 1: Ensure that the row count output matches the page size
+SET @RecordCount = @@ROWCOUNT;
+IF (@RecordCount != @PageSize)
+BEGIN
+	RAISERROR('Record count needs to equal to given page size', 16, 1);
+	RETURN;
+END
+
+
+-- Validate the results based on your specific conditions
+IF (@RC = 0 AND @MaxPages &gt; 0)
+BEGIN
+    -- Test passed, output the results
+    PRINT 'Test Passed';
+    SELECT @RC AS RC,
+           @MaxPages AS MaxPages;
+END
+ELSE
+BEGIN
+    -- Test failed, output an error message
+    PRINT 'Test Failed';
+
+    -- Output details about the failure
+    PRINT 'Error Code: ' + CAST(@RC AS NVARCHAR(MAX));
+
+    IF @RC &lt;&gt; 0
+    BEGIN
+        PRINT 'Error: Non-zero return code';
+    END
+
+    IF @MaxPages &lt;= 0
+    BEGIN
+        PRINT 'Error: MaxPages should be greater than 0';
+    END
+END;
+
+ROLLBACK;</value>
   </data>
-  <data name="site_GetRootAscendantsByIdentityNumberTest_TestAction.SqlScript" xml:space="preserve">
-    <value>-- database unit test for site.GetRootAscendantsByIdentityNumber
+  <data name="site_GetRootAscendantsByIdentityNumberTest_EnsureIfNoAscendantsFoundReturnBackQueriedPerson_TestAction.SqlScript" xml:space="preserve">
+    <value>BEGIN TRANSACTION;
+
+--- database unit test for site.GetRootAscendantsByIdentityNumber
 DECLARE @RC AS INT, @IdentityNumber AS NVARCHAR (MAX);
 
 SELECT @RC = 0,
-       @IdentityNumber = NULL;
+       @IdentityNumber = 'ID2';
 
 EXECUTE @RC = [site].[GetRootAscendantsByIdentityNumber] @IdentityNumber;
 
-SELECT @RC AS RC;
 
+	   -- Execute the stored procedure and store the result in a table variable
+DECLARE @Results TABLE (
+    Id INT,
+	FatherId INT,
+	MotherId INT,
+	Name NVARCHAR(MAX),
+	Surname NVARCHAR(MAX),
+	BirthDate DateTime2(7),
+	IdentityNumber NVARCHAR(MAX)
+    -- Add more columns as needed
+);
+
+
+INSERT INTO @Results
+-- Execute the stored procedure
+EXECUTE @RC = [site].[GetRootAscendantsByIdentityNumber] @IdentityNumber;
+
+DECLARE @ActualIdNumber NVARCHAR(MAX);
+
+IF (@@ROWCOUNT = 1)
+BEGIN
+	SELECT TOP 1 @ActualIdNumber = IdentityNumber FROM @Results;
+
+	IF (@ActualIdNumber != @IdentityNumber)
+	BEGIN
+		RAISERROR('If no ascendents for ID number is found it should always return back the queried person', 16, 1);
+	END
+END
+
+IF (@RC = 0)
+BEGIN
+    -- Test passed, output the results
+    PRINT 'Test Passed';
+    SELECT @RC AS RC;
+END
+ELSE
+BEGIN
+    -- Test failed, output an error message
+    PRINT 'Test Failed';
+
+    -- Output details about the failure
+    PRINT 'Error Code: ' + CAST(@RC AS NVARCHAR(MAX));
+
+    IF @RC &lt;&gt; 0
+    BEGIN
+        PRINT 'Error: Non-zero return code';
+    END
+END;
+
+ROLLBACK;
+</value>
+  </data>
+  <data name="site_GetDescendantsByIdentityNumberTest_FirstRecordOnFirstPage_FatherIdAndMotherId_ShouldBeNull_TestAction.SqlScript" xml:space="preserve">
+    <value>BEGIN TRANSACTION;
+
+DECLARE @RC AS INT, 
+        @IdentityNumber AS NVARCHAR(MAX),
+        @PageSize AS INT,
+        @PageNumber AS INT,
+        @MaxPages AS INT,
+		@RecordCount AS INT;
+
+DECLARE @FirstRecordMotherId INT, @FirstRecordFatherId INT;
+
+-- Set input parameters for the stored procedure
+SELECT @IdentityNumber = NULL,
+       @PageSize = 8,
+       @PageNumber = 1;
+
+DECLARE @Results TABLE (
+    Id INT,
+    RowNum INT,
+	FatherId INT,
+	MotherId INT,
+	Name NVARCHAR(MAX),
+	Surname NVARCHAR(MAX),
+	BirthDate DateTime2(7),
+	IdentityNumber NVARCHAR(MAX),
+	PartnerId INT
+    -- Add more columns as needed
+);
+
+
+INSERT INTO @Results
+-- Execute the stored procedure
+EXECUTE @RC = [site].[GetDescendantsByIdentityNumber] 
+            @IdentityNumber, @PageSize, @PageNumber, @MaxPages OUTPUT;
+
+
+IF (@PageNumber = 1) BEGIN
+
+	SELECT TOP 1 
+		@FirstRecordMotherId = MotherId,
+		@FirstRecordFatherId = FatherId
+	FROM @Results;
+
+	IF (@FirstRecordMotherId IS NOT NULL)
+	BEGIN
+		RAISERROR('On the first record of page 1 the Mother Id should always be NULL', 16, 1);
+		RETURN;
+	END
+
+	IF (@FirstRecordFatherId IS NOT NULL)
+	BEGIN
+		RAISERROR('On the first record of page 1 the Father Id should always be NULL', 16, 1);
+		RETURN;
+	END
+END
+
+
+-- Validate the results based on your specific conditions
+IF (@RC = 0 AND @MaxPages &gt; 0)
+BEGIN
+    -- Test passed, output the results
+    PRINT 'Test Passed';
+    SELECT @RC AS RC,
+           @MaxPages AS MaxPages;
+END
+ELSE
+BEGIN
+    -- Test failed, output an error message
+    PRINT 'Test Failed';
+
+    -- Output details about the failure
+    PRINT 'Error Code: ' + CAST(@RC AS NVARCHAR(MAX));
+
+    IF @RC &lt;&gt; 0
+    BEGIN
+        PRINT 'Error: Non-zero return code';
+    END
+
+    IF @MaxPages &lt;= 0
+    BEGIN
+        PRINT 'Error: MaxPages should be greater than 0';
+    END
+END;
+
+ROLLBACK;</value>
+  </data>
+  <data name="site_GetDescendantsByIdentityNumberTest_EnsureValidPartnerLinkage_TestAction.SqlScript" xml:space="preserve">
+    <value>BEGIN TRANSACTION;
+-- Add necessary parameters for the test
+DECLARE @RC AS INT, 
+        @IdentityNumber AS NVARCHAR(MAX),
+        @PageSize AS INT,
+        @PageNumber AS INT,
+        @MaxPages AS INT,
+		@RecordCount AS INT;
+
+
+-- Set input parameters for the stored procedure
+SELECT @IdentityNumber = NULL,
+       @PageSize = 8,
+       @PageNumber = 1;
+
+-- Execute the stored procedure and store the result in a table variable
+DECLARE @Results TABLE (
+    Id INT,
+    RowNum INT,
+	FatherId INT,
+	MotherId INT,
+	Name NVARCHAR(MAX),
+	Surname NVARCHAR(MAX),
+	BirthDate DateTime2(7),
+	IdentityNumber NVARCHAR(MAX),
+	PartnerId INT
+);
+
+
+INSERT INTO @Results
+-- Execute the stored procedure
+EXECUTE @RC = [site].[GetDescendantsByIdentityNumber] 
+            @IdentityNumber, @PageSize, @PageNumber, @MaxPages OUTPUT;
+
+
+-- Ensure that a partner linkage is made if there are children where a motherid and fatherid is specified
+DECLARE 
+@MotherId INT, 
+@FatherId INT, 
+
+@MotherPartnerId INT, 
+@FatherPartnerId INT, 
+
+@ActualMotherId INT, 
+@ActualFatherId INT;
+
+-- get first first row of which a mother and father is specified
+SELECT TOP 1 
+	@MotherId = MotherId, 
+	@FatherId = FatherId 
+FROM @Results 
+WHERE MotherId IS NOT NULL AND FatherId IS NOT NULL;
+
+-- retrieve the actual mother id and the partner id of the mother
+SELECT TOP 1 
+	@ActualMotherId = Id, 
+	@MotherPartnerId = PartnerId 
+FROM @Results 
+WHERE Id = @MotherId;
+
+-- retrieve the actual father id and the partner id of the father
+SELECT TOP 1 
+	@ActualFatherId = Id, 
+	@FatherPartnerId = PartnerId 
+FROM @Results 
+WHERE Id = @FatherId;
+
+
+-- ASSERTIONS --
+
+-- assert that the father has the mother as partner
+IF (@ActualMotherId != @FatherPartnerId)
+BEGIN
+	RAISERROR('If a Mother Id and Father Id is specified for a child they need to be linked as partners', 16, 1);
+	RETURN;
+END
+
+-- assert that the mother has the father as partner
+IF (@ActualFatherId != @MotherPartnerId)
+BEGIN
+	RAISERROR('If a Mother Id and Father Id is specified for a child they need to be linked as partners', 16, 1);
+	RETURN;
+END
+
+
+IF (@RC = 0 AND @MaxPages &gt; 0)
+BEGIN
+    -- Test passed, output the results
+    PRINT 'Test Passed';
+    SELECT @RC AS RC,
+           @MaxPages AS MaxPages;
+END
+ELSE
+BEGIN
+    -- Test failed, output an error message
+    PRINT 'Test Failed';
+
+    -- Output details about the failure
+    PRINT 'Error Code: ' + CAST(@RC AS NVARCHAR(MAX));
+
+    IF @RC &lt;&gt; 0
+    BEGIN
+        PRINT 'Error: Non-zero return code';
+    END
+
+    IF @MaxPages &lt;= 0
+    BEGIN
+        PRINT 'Error: MaxPages should be greater than 0';
+    END
+END;
+
+ROLLBACK;</value>
+  </data>
+  <data name="site_GetRootAscendantsByIdentityNumberTest_EnsureCorrectAscendants_TestAction.SqlScript" xml:space="preserve">
+    <value>BEGIN TRANSACTION;
+
+--- database unit test for site.GetRootAscendantsByIdentityNumber
+DECLARE @RC AS INT, @IdentityNumber AS NVARCHAR (MAX);
+
+SELECT @RC = 0,
+       @IdentityNumber = 'ID3';
+
+EXECUTE @RC = [site].[GetRootAscendantsByIdentityNumber] @IdentityNumber;
+
+
+	   -- Execute the stored procedure and store the result in a table variable
+DECLARE @Results TABLE (
+    Id INT,
+	FatherId INT,
+	MotherId INT,
+	Name NVARCHAR(MAX),
+	Surname NVARCHAR(MAX),
+	BirthDate DateTime2(7),
+	IdentityNumber NVARCHAR(MAX)
+    -- Add more columns as needed
+);
+
+
+INSERT INTO @Results
+-- Execute the stored procedure
+EXECUTE @RC = [site].[GetRootAscendantsByIdentityNumber] @IdentityNumber;
+
+DECLARE @PersonMotherId INT, @PersonFatherId INT;
+
+SELECT TOP 1 @PersonMotherId = MotherId, @PersonFatherId = FatherId FROM [site].Persons WHERE IdentityNumber = @IdentityNumber;
+
+
+IF (NOT EXISTS(SELECT TOP 1 * FROM @Results WHERE Id = @PersonMotherId) OR NOT EXISTS(SELECT TOP 1 * FROM @Results WHERE Id = @PersonFatherId))
+BEGIN
+	RAISERROR('The ascendant of the queried person needs to be returned', 16, 1);
+END
+
+
+IF (@RC = 0)
+BEGIN
+    -- Test passed, output the results
+    PRINT 'Test Passed';
+    SELECT @RC AS RC;
+END
+ELSE
+BEGIN
+    -- Test failed, output an error message
+    PRINT 'Test Failed';
+
+    -- Output details about the failure
+    PRINT 'Error Code: ' + CAST(@RC AS NVARCHAR(MAX));
+
+    IF @RC &lt;&gt; 0
+    BEGIN
+        PRINT 'Error: Non-zero return code';
+    END
+END;
+
+ROLLBACK;
 </value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
