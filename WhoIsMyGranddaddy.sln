@@ -3,17 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhoIsMyGranddaddy.Server", "WhoIsMyGranddaddy.Server\WhoIsMyGranddaddy.Server.csproj", "{7704A9E0-F1D1-4B79-8B0C-3D1FD8AF9E5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhoIsMyGranddaddy.Server", "WhoIsMyGranddaddy.Server\WhoIsMyGranddaddy.Server.csproj", "{7704A9E0-F1D1-4B79-8B0C-3D1FD8AF9E5F}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "whoismygranddaddy.client", "whoismygranddaddy.client\whoismygranddaddy.client.esproj", "{08F25C81-08E7-4BF4-811A-25A9EBCFABF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhoIsMyGranddaddy.Data", "WhoIsMyGranddaddy.Data\WhoIsMyGranddaddy.Data.csproj", "{58EB1636-DEC7-408E-A839-7197382AAFA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhoIsMyGranddaddy.Data", "WhoIsMyGranddaddy.Data\WhoIsMyGranddaddy.Data.csproj", "{58EB1636-DEC7-408E-A839-7197382AAFA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhoIsMyGranddaddy.Tests", "WhoIsMyGranddaddy.Tests\WhoIsMyGranddaddy.Tests.csproj", "{E9FB463F-7874-49C1-9092-9EB6E8E1D859}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhoIsMyGranddaddy.Tests", "WhoIsMyGranddaddy.Tests\WhoIsMyGranddaddy.Tests.csproj", "{E9FB463F-7874-49C1-9092-9EB6E8E1D859}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhoIsMyGranddaddy.Domain", "WhoIsMyGranddaddy.Domain\WhoIsMyGranddaddy.Domain.csproj", "{0F57C58A-C847-4486-B168-C4DF53CB17ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhoIsMyGranddaddy.Domain", "WhoIsMyGranddaddy.Domain\WhoIsMyGranddaddy.Domain.csproj", "{0F57C58A-C847-4486-B168-C4DF53CB17ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhoIsMyGranddaddy.Server.Shared", "WhoIsMyGranddaddy.Server.Shared\WhoIsMyGranddaddy.Server.Shared.csproj", "{1630A890-26F0-4BF8-B452-310D14CE8BA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhoIsMyGranddaddy.Server.Shared", "WhoIsMyGranddaddy.Server.Shared\WhoIsMyGranddaddy.Server.Shared.csproj", "{1630A890-26F0-4BF8-B452-310D14CE8BA9}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "WhoIsMyGranddaddy.Database", "WhoIsMyGranddaddy.Database\WhoIsMyGranddaddy.Database.sqlproj", "{7522EFFA-A98A-4E59-825A-A632521DC9D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhoIsMyGranddaddy.SQLTests", "WhoIsMyGranddaddy.SQLTests\WhoIsMyGranddaddy.SQLTests.csproj", "{16DBBD38-34D6-444D-9302-9FB7FA948247}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +51,16 @@ Global
 		{1630A890-26F0-4BF8-B452-310D14CE8BA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1630A890-26F0-4BF8-B452-310D14CE8BA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1630A890-26F0-4BF8-B452-310D14CE8BA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7522EFFA-A98A-4E59-825A-A632521DC9D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7522EFFA-A98A-4E59-825A-A632521DC9D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7522EFFA-A98A-4E59-825A-A632521DC9D2}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7522EFFA-A98A-4E59-825A-A632521DC9D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7522EFFA-A98A-4E59-825A-A632521DC9D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7522EFFA-A98A-4E59-825A-A632521DC9D2}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{16DBBD38-34D6-444D-9302-9FB7FA948247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16DBBD38-34D6-444D-9302-9FB7FA948247}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16DBBD38-34D6-444D-9302-9FB7FA948247}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16DBBD38-34D6-444D-9302-9FB7FA948247}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

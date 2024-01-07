@@ -1,0 +1,23 @@
+﻿** Highlights
+     Tables that will be recreated with data migrated
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [site] (Schema)
+       [site].[Persons] (Table)
+       [site].[Persons].[IX_Persons_FatherId] (Index)
+       [site].[Persons].[IX_Persons_MotherId] (Index)
+       [dbo].[__EFMigrationsHistory] (Table)
+       [site].[FK_Persons_Persons_FatherId] (Foreign Key)
+       [site].[FK_Persons_Persons_MotherId] (Foreign Key)
+       [site].[GetRootAscendantsByIdentityNumber] (Procedure)
+       [site].[GetDescendantsByIdentityNumber] (Procedure)
+
+** Supporting actions
