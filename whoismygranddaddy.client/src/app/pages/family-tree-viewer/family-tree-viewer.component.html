@@ -7,7 +7,7 @@
         placeholder="Identity Number" (keyup.enter)="search()" [(ngModel)]="this.searchByIdentityNumber" />
 
       <button class="bg-cyan-600 text-white w-24 rounded-md mr-3 p-2" (click)="search()">Search</button>
-      <button class="bg-red-600 text-white w-24 rounded-md p-2" (click)="clearSearch()">Clear</button>
+      <button class="bg-red-600 text-white w-24 rounded-md p-2" (click)="reset()">Reset</button>
     </div>
 
     <!-- Paging section -->
@@ -20,9 +20,10 @@
 </div>
 
 
-<div *ngIf="this.page.isLoading" class="w-100 justify-center mb-5">
+<div *ngIf="this.page.isLoading" class="w-full flex justify-center mb-5">
   <h1>Loading ...</h1>
 </div>
+
 
 <div *ngIf="this.page.hasError" class="w-100 justify-center">
   <h1 class="text-red-600">{{ this.page.error }}</h1>

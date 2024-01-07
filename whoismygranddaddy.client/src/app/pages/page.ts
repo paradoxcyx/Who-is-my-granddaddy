@@ -11,7 +11,7 @@
   }
 
   abstract search(): void;
-  abstract clearSearch(): void;
+  abstract reset(): void;
 
   initLoading() {
     this.page.isLoading = true;

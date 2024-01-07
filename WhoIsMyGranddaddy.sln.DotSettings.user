@@ -1,15 +1,14 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=58EB1636_002DDEC7_002D408E_002DA839_002D7197382AAFA1_002Fd_003AModels_002Ff_003APerson_002Ecs/@EntryIndexedValue">ExplicitlyExcluded</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8842e1fd_002Ddda1_002D42e8_002Dabd1_002D969750ff87c1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetFullFamilyTree_ShouldReturnCorrectFamilyTree" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8842e1fd_002Ddda1_002D42e8_002Dabd1_002D969750ff87c1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetFullFamilyTree_ShouldReturnCorrectFamilyTree" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::E9FB463F-7874-49C1-9092-9EB6E8E1D859::net6.0::WhoIsMyGranddaddy.Tests.PersonServiceTests.GetFullFamilyTree_ShouldReturnCorrectFamilyTree&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::E9FB463F-7874-49C1-9092-9EB6E8E1D859::net6.0::WhoIsMyGranddaddy.Tests.PersonServiceTests.GetDescendantFamilyTree_ShouldReturnCorrectFamilyTree&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::E9FB463F-7874-49C1-9092-9EB6E8E1D859::net6.0::WhoIsMyGranddaddy.Tests.PersonServiceTests.GetRootAscendant_ShouldReturnCorrectRootAscendant&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::E9FB463F-7874-49C1-9092-9EB6E8E1D859::net6.0::WhoIsMyGranddaddy.Tests.MappingTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e8ebd2c0_002D86dd_002D4195_002D84e9_002Dda2c4834a133/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetDescendantFamilyTree_ShouldReturnCorrectFamilyTree" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e8ebd2c0_002D86dd_002D4195_002D84e9_002Dda2c4834a133/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetDescendantFamilyTree_ShouldReturnCorrectFamilyTree" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::E9FB463F-7874-49C1-9092-9EB6E8E1D859::net6.0::WhoIsMyGranddaddy.Tests.FamilyTreeServiceTests.GetDescendantsByIdentityNumberAsync_ShouldReturnResult&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::E9FB463F-7874-49C1-9092-9EB6E8E1D859::net6.0::WhoIsMyGranddaddy.Tests.FamilyTreeServiceTests.EnsureFamilyMembersMapping&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	</wpf:ResourceDictionary>

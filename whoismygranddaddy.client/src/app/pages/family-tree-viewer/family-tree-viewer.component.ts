@@ -86,7 +86,7 @@ export class FamilyTreeViewerComponent extends Page implements OnInit {
     this.loadFamilyMembers();
   }
 
-  override clearSearch(): void {
+  override reset(): void {
     //also reset the paging here when clearing search
     this.page.paging.pageNumber = 1;
     this.pagedFamilyMembers = [];

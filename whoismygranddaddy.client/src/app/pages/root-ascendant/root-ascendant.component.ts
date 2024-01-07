@@ -32,7 +32,7 @@ export class RootAscendantComponent extends Page implements OnInit {
 
     this.loadRootAscendants();
   }
-  override clearSearch(): void {
+  override reset(): void {
     this.searchByIdentityNumber = '';
     this.TreeViewer!.clearFamilyTree();
   }
