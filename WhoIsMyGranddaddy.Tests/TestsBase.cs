@@ -1,4 +1,6 @@
-﻿using WhoIsMyGranddaddy.Data.Entities;
+﻿using AutoMapper;
+using WhoIsMyGranddaddy.Data.Entities;
+using WhoIsMyGranddaddy.Domain.Mappings;
 
 namespace WhoIsMyGranddaddy.Tests;
 
@@ -66,4 +68,13 @@ public class TestsBase
             Surname = "van Wyk",
         }
     };
+
+    protected readonly IMapper Mapper;
+
+    protected TestsBase()
+    {
+        var configuration = new MapperConfiguration(cfg => { cfg.AddProfile<FamilyMemberProfile>(); });
+        
+        Mapper = configuration.CreateMapper();
+    }
 }
