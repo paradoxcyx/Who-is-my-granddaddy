@@ -29,9 +29,9 @@ public class FamilyTreeService : IFamilyTreeService
         
         var (people, maxPages) = await _personRepository.GetDescendantsByIdentityNumberAsync(identityNumber, pageNumber);
 
-        var familyTree = _mapper.Map<List<FamilyMemberModel>>(people);
+        var descendants = _mapper.Map<List<FamilyMemberModel>>(people);
 
-        return Tuple.Create(familyTree, maxPages);
+        return Tuple.Create(descendants, maxPages);
     }
     
     public async Task<List<FamilyMemberModel>> GetRootAscendants(string identityNumber)
@@ -43,9 +43,9 @@ public class FamilyTreeService : IFamilyTreeService
         
         var people = await _personRepository.GetRootAscendantsByIdentityNumberAsync(identityNumber);
 
-        var familyTree = _mapper.Map<List<FamilyMemberModel>>(people);
+        var ascendants = _mapper.Map<List<FamilyMemberModel>>(people);
 
-        return familyTree;
+        return ascendants;
     }
     
 }
