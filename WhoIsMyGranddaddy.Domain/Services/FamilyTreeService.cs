@@ -26,6 +26,7 @@ public class FamilyTreeService : IFamilyTreeService
             if (person == null)
                 throw new InvalidOperationException("This person does not exist!");
         }
+        
         var (people, maxPages) = await _personRepository.GetDescendantsByIdentityNumberAsync(identityNumber, pageNumber);
 
         var familyTree = _mapper.Map<List<FamilyMemberModel>>(people);

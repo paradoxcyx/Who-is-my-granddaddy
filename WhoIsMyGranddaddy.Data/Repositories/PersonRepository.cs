@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using System.Runtime.CompilerServices;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using WhoIsMyGranddaddy.Data.Database;
@@ -9,10 +8,10 @@ namespace WhoIsMyGranddaddy.Data.Repositories;
 
 public class PersonRepository : IPersonRepository
 {
-    private readonly AppDbContext _context;
+    private readonly IAppDbContext _context;
     private const int PageSize = 8;
     
-    public PersonRepository(AppDbContext context)
+    public PersonRepository(IAppDbContext context)
     {
         _context = context;
     }
@@ -22,11 +21,15 @@ public class PersonRepository : IPersonRepository
         return await _context.Persons.FirstOrDefaultAsync(x => x.IdentityNumber == identityNumber);
     }
     
-    public Task<List<Person>> GetRootAscendantsByIdentityNumberAsync(string identityNumber)
+    public async Task<List<Person>> GetRootAscendantsByIdentityNumberAsync(string identityNumber)
     {
         var identityNumberParam = new SqlParameter("@IdentityNumber", identityNumber);
         
-        return _context.Persons.FromSqlInterpolated($"EXEC [site].[GetRootAscendantsByIdentityNumber] {identityNumberParam}").ToListAsync();
+        const string query = "EXEC [site].[GetRootAscendantsByIdentityNumber] @IdentityNumber";
+
+        var dataResult = await _context.ExecuteStoredProcedure<Person>(query, identityNumberParam);
+
+        return dataResult.Item1;
     }
 
     public async Task<Tuple<List<PersonWithPartner>, int>> GetDescendantsByIdentityNumberAsync(string? identityNumber, int pageNumber = 1)
@@ -38,12 +41,13 @@ public class PersonRepository : IPersonRepository
 
         const string query = "EXEC [site].[GetDescendantsByIdentityNumber] @IdentityNumber, @PageSize, @PageNumber, @MaxPages OUTPUT";
 
-        var people = await _context.PersonsWithPartner
-            .FromSqlInterpolated(FormattableStringFactory.Create(query, identityNumberParam, pageSizeParam, pageNumberParam, maxPagesParam))
-            .ToListAsync();
-
-        // Retrieve the value of the output parameter
-        var maxPages = (int)maxPagesParam.Value;
+        var (people, maxPages) = await  _context.ExecuteStoredProcedure<PersonWithPartner>(
+            query,
+            identityNumberParam,
+            pageSizeParam,
+            pageNumberParam,
+            maxPagesParam
+        );
 
         return Tuple.Create(people, maxPages);
     }

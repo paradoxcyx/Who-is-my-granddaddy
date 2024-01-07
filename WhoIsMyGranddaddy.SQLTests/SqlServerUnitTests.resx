@@ -1,0 +1,526 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="site_GetDescendantsByIdentityNumberTest_RecordCountShouldMatchPageSize_TestAction.SqlScript" xml:space="preserve">
+    <value>BEGIN TRANSACTION;
+-- Add necessary parameters for the test
+DECLARE @RC AS INT, 
+        @IdentityNumber AS NVARCHAR(MAX),
+        @PageSize AS INT,
+        @PageNumber AS INT,
+        @MaxPages AS INT,
+		@RecordCount AS INT;
+
+
+-- Set input parameters for the stored procedure
+SELECT @IdentityNumber = NULL,
+       @PageSize = 8,
+       @PageNumber = 1;
+
+	   -- Execute the stored procedure and store the result in a table variable
+DECLARE @Results TABLE (
+    Id INT,
+    RowNum INT,
+	FatherId INT,
+	MotherId INT,
+	Name NVARCHAR(MAX),
+	Surname NVARCHAR(MAX),
+	BirthDate DateTime2(7),
+	IdentityNumber NVARCHAR(MAX),
+	PartnerId INT
+    -- Add more columns as needed
+);
+
+
+INSERT INTO @Results
+-- Execute the stored procedure
+EXECUTE @RC = [site].[GetDescendantsByIdentityNumber] 
+            @IdentityNumber, @PageSize, @PageNumber, @MaxPages OUTPUT;
+
+
+-- Step 1: Ensure that the row count output matches the page size
+SET @RecordCount = @@ROWCOUNT;
+IF (@RecordCount != @PageSize)
+BEGIN
+	RAISERROR('Record count needs to equal to given page size', 16, 1);
+	RETURN;
+END
+
+
+-- Validate the results based on your specific conditions
+IF (@RC = 0 AND @MaxPages &gt; 0)
+BEGIN
+    -- Test passed, output the results
+    PRINT 'Test Passed';
+    SELECT @RC AS RC,
+           @MaxPages AS MaxPages;
+END
+ELSE
+BEGIN
+    -- Test failed, output an error message
+    PRINT 'Test Failed';
+
+    -- Output details about the failure
+    PRINT 'Error Code: ' + CAST(@RC AS NVARCHAR(MAX));
+
+    IF @RC &lt;&gt; 0
+    BEGIN
+        PRINT 'Error: Non-zero return code';
+    END
+
+    IF @MaxPages &lt;= 0
+    BEGIN
+        PRINT 'Error: MaxPages should be greater than 0';
+    END
+END;
+
+ROLLBACK;</value>
+  </data>
+  <data name="site_GetRootAscendantsByIdentityNumberTest_EnsureIfNoAscendantsFoundReturnBackQueriedPerson_TestAction.SqlScript" xml:space="preserve">
+    <value>BEGIN TRANSACTION;
+
+--- database unit test for site.GetRootAscendantsByIdentityNumber
+DECLARE @RC AS INT, @IdentityNumber AS NVARCHAR (MAX);
+
+SELECT @RC = 0,
+       @IdentityNumber = 'ID2';
+
+EXECUTE @RC = [site].[GetRootAscendantsByIdentityNumber] @IdentityNumber;
+
+
+	   -- Execute the stored procedure and store the result in a table variable
+DECLARE @Results TABLE (
+    Id INT,
+	FatherId INT,
+	MotherId INT,
+	Name NVARCHAR(MAX),
+	Surname NVARCHAR(MAX),
+	BirthDate DateTime2(7),
+	IdentityNumber NVARCHAR(MAX)
+    -- Add more columns as needed
+);
+
+
+INSERT INTO @Results
+-- Execute the stored procedure
+EXECUTE @RC = [site].[GetRootAscendantsByIdentityNumber] @IdentityNumber;
+
+DECLARE @ActualIdNumber NVARCHAR(MAX);
+
+IF (@@ROWCOUNT = 1)
+BEGIN
+	SELECT TOP 1 @ActualIdNumber = IdentityNumber FROM @Results;
+
+	IF (@ActualIdNumber != @IdentityNumber)
+	BEGIN
+		RAISERROR('If no ascendents for ID number is found it should always return back the queried person', 16, 1);
+	END
+END
+
+IF (@RC = 0)
+BEGIN
+    -- Test passed, output the results
+    PRINT 'Test Passed';
+    SELECT @RC AS RC;
+END
+ELSE
+BEGIN
+    -- Test failed, output an error message
+    PRINT 'Test Failed';
+
+    -- Output details about the failure
+    PRINT 'Error Code: ' + CAST(@RC AS NVARCHAR(MAX));
+
+    IF @RC &lt;&gt; 0
+    BEGIN
+        PRINT 'Error: Non-zero return code';
+    END
+END;
+
+ROLLBACK;
+</value>
+  </data>
+  <data name="site_GetDescendantsByIdentityNumberTest_FirstRecordOnFirstPage_FatherIdAndMotherId_ShouldBeNull_TestAction.SqlScript" xml:space="preserve">
+    <value>BEGIN TRANSACTION;
+
+DECLARE @RC AS INT, 
+        @IdentityNumber AS NVARCHAR(MAX),
+        @PageSize AS INT,
+        @PageNumber AS INT,
+        @MaxPages AS INT,
+		@RecordCount AS INT;
+
+DECLARE @FirstRecordMotherId INT, @FirstRecordFatherId INT;
+
+-- Set input parameters for the stored procedure
+SELECT @IdentityNumber = NULL,
+       @PageSize = 8,
+       @PageNumber = 1;
+
+DECLARE @Results TABLE (
+    Id INT,
+    RowNum INT,
+	FatherId INT,
+	MotherId INT,
+	Name NVARCHAR(MAX),
+	Surname NVARCHAR(MAX),
+	BirthDate DateTime2(7),
+	IdentityNumber NVARCHAR(MAX),
+	PartnerId INT
+    -- Add more columns as needed
+);
+
+
+INSERT INTO @Results
+-- Execute the stored procedure
+EXECUTE @RC = [site].[GetDescendantsByIdentityNumber] 
+            @IdentityNumber, @PageSize, @PageNumber, @MaxPages OUTPUT;
+
+
+IF (@PageNumber = 1) BEGIN
+
+	SELECT TOP 1 
+		@FirstRecordMotherId = MotherId,
+		@FirstRecordFatherId = FatherId
+	FROM @Results;
+
+	IF (@FirstRecordMotherId IS NOT NULL)
+	BEGIN
+		RAISERROR('On the first record of page 1 the Mother Id should always be NULL', 16, 1);
+		RETURN;
+	END
+
+	IF (@FirstRecordFatherId IS NOT NULL)
+	BEGIN
+		RAISERROR('On the first record of page 1 the Father Id should always be NULL', 16, 1);
+		RETURN;
+	END
+END
+
+
+-- Validate the results based on your specific conditions
+IF (@RC = 0 AND @MaxPages &gt; 0)
+BEGIN
+    -- Test passed, output the results
+    PRINT 'Test Passed';
+    SELECT @RC AS RC,
+           @MaxPages AS MaxPages;
+END
+ELSE
+BEGIN
+    -- Test failed, output an error message
+    PRINT 'Test Failed';
+
+    -- Output details about the failure
+    PRINT 'Error Code: ' + CAST(@RC AS NVARCHAR(MAX));
+
+    IF @RC &lt;&gt; 0
+    BEGIN
+        PRINT 'Error: Non-zero return code';
+    END
+
+    IF @MaxPages &lt;= 0
+    BEGIN
+        PRINT 'Error: MaxPages should be greater than 0';
+    END
+END;
+
+ROLLBACK;</value>
+  </data>
+  <data name="site_GetDescendantsByIdentityNumberTest_EnsureValidPartnerLinkage_TestAction.SqlScript" xml:space="preserve">
+    <value>BEGIN TRANSACTION;
+-- Add necessary parameters for the test
+DECLARE @RC AS INT, 
+        @IdentityNumber AS NVARCHAR(MAX),
+        @PageSize AS INT,
+        @PageNumber AS INT,
+        @MaxPages AS INT,
+		@RecordCount AS INT;
+
+
+-- Set input parameters for the stored procedure
+SELECT @IdentityNumber = NULL,
+       @PageSize = 8,
+       @PageNumber = 1;
+
+-- Execute the stored procedure and store the result in a table variable
+DECLARE @Results TABLE (
+    Id INT,
+    RowNum INT,
+	FatherId INT,
+	MotherId INT,
+	Name NVARCHAR(MAX),
+	Surname NVARCHAR(MAX),
+	BirthDate DateTime2(7),
+	IdentityNumber NVARCHAR(MAX),
+	PartnerId INT
+);
+
+
+INSERT INTO @Results
+-- Execute the stored procedure
+EXECUTE @RC = [site].[GetDescendantsByIdentityNumber] 
+            @IdentityNumber, @PageSize, @PageNumber, @MaxPages OUTPUT;
+
+
+-- Ensure that a partner linkage is made if there are children where a motherid and fatherid is specified
+DECLARE 
+@MotherId INT, 
+@FatherId INT, 
+
+@MotherPartnerId INT, 
+@FatherPartnerId INT, 
+
+@ActualMotherId INT, 
+@ActualFatherId INT;
+
+-- get first first row of which a mother and father is specified
+SELECT TOP 1 
+	@MotherId = MotherId, 
+	@FatherId = FatherId 
+FROM @Results 
+WHERE MotherId IS NOT NULL AND FatherId IS NOT NULL;
+
+-- retrieve the actual mother id and the partner id of the mother
+SELECT TOP 1 
+	@ActualMotherId = Id, 
+	@MotherPartnerId = PartnerId 
+FROM @Results 
+WHERE Id = @MotherId;
+
+-- retrieve the actual father id and the partner id of the father
+SELECT TOP 1 
+	@ActualFatherId = Id, 
+	@FatherPartnerId = PartnerId 
+FROM @Results 
+WHERE Id = @FatherId;
+
+
+-- ASSERTIONS --
+
+-- assert that the father has the mother as partner
+IF (@ActualMotherId != @FatherPartnerId)
+BEGIN
+	RAISERROR('If a Mother Id and Father Id is specified for a child they need to be linked as partners', 16, 1);
+	RETURN;
+END
+
+-- assert that the mother has the father as partner
+IF (@ActualFatherId != @MotherPartnerId)
+BEGIN
+	RAISERROR('If a Mother Id and Father Id is specified for a child they need to be linked as partners', 16, 1);
+	RETURN;
+END
+
+
+IF (@RC = 0 AND @MaxPages &gt; 0)
+BEGIN
+    -- Test passed, output the results
+    PRINT 'Test Passed';
+    SELECT @RC AS RC,
+           @MaxPages AS MaxPages;
+END
+ELSE
+BEGIN
+    -- Test failed, output an error message
+    PRINT 'Test Failed';
+
+    -- Output details about the failure
+    PRINT 'Error Code: ' + CAST(@RC AS NVARCHAR(MAX));
+
+    IF @RC &lt;&gt; 0
+    BEGIN
+        PRINT 'Error: Non-zero return code';
+    END
+
+    IF @MaxPages &lt;= 0
+    BEGIN
+        PRINT 'Error: MaxPages should be greater than 0';
+    END
+END;
+
+ROLLBACK;</value>
+  </data>
+  <data name="site_GetRootAscendantsByIdentityNumberTest_EnsureCorrectAscendants_TestAction.SqlScript" xml:space="preserve">
+    <value>BEGIN TRANSACTION;
+
+--- database unit test for site.GetRootAscendantsByIdentityNumber
+DECLARE @RC AS INT, @IdentityNumber AS NVARCHAR (MAX);
+
+SELECT @RC = 0,
+       @IdentityNumber = 'ID3';
+
+EXECUTE @RC = [site].[GetRootAscendantsByIdentityNumber] @IdentityNumber;
+
+
+	   -- Execute the stored procedure and store the result in a table variable
+DECLARE @Results TABLE (
+    Id INT,
+	FatherId INT,
+	MotherId INT,
+	Name NVARCHAR(MAX),
+	Surname NVARCHAR(MAX),
+	BirthDate DateTime2(7),
+	IdentityNumber NVARCHAR(MAX)
+    -- Add more columns as needed
+);
+
+
+INSERT INTO @Results
+-- Execute the stored procedure
+EXECUTE @RC = [site].[GetRootAscendantsByIdentityNumber] @IdentityNumber;
+
+DECLARE @PersonMotherId INT, @PersonFatherId INT;
+
+SELECT TOP 1 @PersonMotherId = MotherId, @PersonFatherId = FatherId FROM [site].Persons WHERE IdentityNumber = @IdentityNumber;
+
+
+IF (NOT EXISTS(SELECT TOP 1 * FROM @Results WHERE Id = @PersonMotherId) OR NOT EXISTS(SELECT TOP 1 * FROM @Results WHERE Id = @PersonFatherId))
+BEGIN
+	RAISERROR('The ascendant of the queried person needs to be returned', 16, 1);
+END
+
+
+IF (@RC = 0)
+BEGIN
+    -- Test passed, output the results
+    PRINT 'Test Passed';
+    SELECT @RC AS RC;
+END
+ELSE
+BEGIN
+    -- Test failed, output an error message
+    PRINT 'Test Failed';
+
+    -- Output details about the failure
+    PRINT 'Error Code: ' + CAST(@RC AS NVARCHAR(MAX));
+
+    IF @RC &lt;&gt; 0
+    BEGIN
+        PRINT 'Error: Non-zero return code';
+    END
+END;
+
+ROLLBACK;
+</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+</root>

@@ -24,15 +24,17 @@ export class RootAscendantComponent extends Page implements OnInit {
   }
 
   override search(): void {
-    if (!this.searchByIdentityNumber) {
+    //the user is required to specify an identity number to retrieve the ascendants
+    if (!this.searchByIdentityNumber && this.searchByIdentityNumber !== '') {
       this.page.hasError = true;
       this.page.error = 'Identity number required search for ascendants';
     }
 
     this.loadRootAscendants();
   }
-  override clearSearch(): void {
+  override reset(): void {
     this.searchByIdentityNumber = '';
+    this.TreeViewer!.clearFamilyTree();
   }
 
   loadRootAscendants() {
@@ -41,6 +43,7 @@ export class RootAscendantComponent extends Page implements OnInit {
     this.familyTreeService.getRootAscendants(this.searchByIdentityNumber)
       .pipe(
         catchError((errorCtx) => {
+          //showing error on front-end if server error has occurred and clearing the family tree
           this.showError(errorCtx.error.message);
 
           this.rootAscendants = [];

@@ -35,6 +35,8 @@ export class FamilyTreeViewerComponent extends Page implements OnInit {
     this.familyTreeService.getDescendants(this.searchByIdentityNumber, this.page.paging.pageNumber)
       .pipe(
         catchError((errorCtx) => {
+
+          //Displaying the error on the front-end and clearing the family tree
           this.showError(errorCtx.error.message);
           this.TreeViewer!.clearFamilyTree();
 
@@ -46,17 +48,19 @@ export class FamilyTreeViewerComponent extends Page implements OnInit {
       )
       .subscribe((result) => {
 
+        //if user proceeds to next page it should add the family tree of the page to the paged data
         if (nextPage) {
-          this.addToFamilyMembers(result.page, result.data);
+          this.addToFamilyMembers(result.paging.page, result.data);
         }
         else {
           this.removeLatestFamilyMembers();
         }
 
+        //Calling the flat map extension on the family members array to get everything at once and load it into the family tree
         this.TreeViewer!.loadFamilyMembers(this.pagedFamilyMembers.flatMap((m) => m.familyMembers));
 
-        this.page.paging.maxPages = result.maxPages;
-        this.page.paging.pageNumber = result.page;
+        this.page.paging.maxPages = result.paging.maxPages;
+        this.page.paging.pageNumber = result.paging.page;
       });
 
   }
@@ -75,15 +79,18 @@ export class FamilyTreeViewerComponent extends Page implements OnInit {
   }
 
   override search(): void {
+    //once a user searches by identity number it should reset the paging
     this.page.paging.pageNumber = 1;
     this.pagedFamilyMembers = [];
 
     this.loadFamilyMembers();
   }
 
-  override clearSearch(): void {
+  override reset(): void {
+    //also reset the paging here when clearing search
     this.page.paging.pageNumber = 1;
     this.pagedFamilyMembers = [];
+
     this.searchByIdentityNumber = null;
 
     this.loadFamilyMembers();
