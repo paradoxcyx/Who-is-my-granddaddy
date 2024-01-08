@@ -10,7 +10,7 @@ public class GlobalExceptionHandlerAttribute : ExceptionFilterAttribute
 {
     public override void OnException(ExceptionContext context)
     {
-        // Create error response with the generic response model
+        // Error response using the Generic Response Model
         var errorResponse = new GenericResponseModel<object?>
         {
             Success = false,
@@ -18,7 +18,7 @@ public class GlobalExceptionHandlerAttribute : ExceptionFilterAttribute
             Data = null
         };
 
-        // Set the response to a json object
+        // The the response to the context result
         context.Result = new ObjectResult(errorResponse)
         {
             StatusCode = 500,
