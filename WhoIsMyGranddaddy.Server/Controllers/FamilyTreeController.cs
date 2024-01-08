@@ -28,6 +28,12 @@ public class FamilyTreeController : ControllerBase
     [HttpGet("GetDescendants")]
     public async Task<IActionResult> GetDescendants(string? identityNumber, int pageNumber)
     {
+        //Backend validation to prevent user from going before the 1st page
+        if (pageNumber < 1)
+        {
+            throw new InvalidOperationException("The minimum page number is 1");
+        }
+        
         var (descendants, maxPages) = await _familyTreeService.GetDescendants(identityNumber, pageNumber);
         
         var response = new GenericResponseModel<List<FamilyMemberModel>>
