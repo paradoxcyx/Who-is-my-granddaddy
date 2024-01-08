@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import FamilyTree from "@balkangraph/familytree.js";
 import {FamilyMember} from "../../../shared/interfaces/family-member";
 
