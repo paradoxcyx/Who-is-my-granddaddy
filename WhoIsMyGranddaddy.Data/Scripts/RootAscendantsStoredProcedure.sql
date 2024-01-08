@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [site].[GetRootAscendantsByIdentityNumber]
-                    @IdentityNumber NVARCHAR(MAX)
+    @IdentityNumber NVARCHAR(MAX)
 AS
 BEGIN
 WITH RecursiveAscendants AS (
