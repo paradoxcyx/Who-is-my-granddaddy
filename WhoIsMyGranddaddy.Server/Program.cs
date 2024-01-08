@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using WhoIsMyGranddaddy.Data;
 using WhoIsMyGranddaddy.Domain;
 using WhoIsMyGranddaddy.Server.Filters;
@@ -8,6 +9,14 @@ builder.Services.AddControllers(options =>
 {
     // Registering the global exception handler attribute
     options.Filters.Add(new GlobalExceptionHandlerAttribute());
+}).ConfigureApiBehaviorOptions(options =>
+{
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        //Using a custom validation handler for modal binding errors e.g. when a value is required but not populated
+        var problems = new ApiModalValidationHandler<object>(context);
+        return new BadRequestObjectResult(problems.Value);
+    };
 });
 
 
