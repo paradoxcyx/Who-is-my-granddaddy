@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WhoIsMyGranddaddy.Server.Shared")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+990b551baf59832352f0c5dcd387b707bdbd0bc0")]
 [assembly: System.Reflection.AssemblyProductAttribute("WhoIsMyGranddaddy.Server.Shared")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WhoIsMyGranddaddy.Server.Shared")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

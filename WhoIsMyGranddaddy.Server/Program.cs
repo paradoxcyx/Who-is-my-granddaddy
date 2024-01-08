@@ -1,6 +1,6 @@
 using WhoIsMyGranddaddy.Data;
 using WhoIsMyGranddaddy.Domain;
-using WhoIsMyGranddaddy.Server.Attributes;
+using WhoIsMyGranddaddy.Server.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +18,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
-        policyBuilder => policyBuilder.WithOrigins("https://127.0.0.1:4200")
+        policyBuilder => policyBuilder.WithOrigins(builder.Configuration.GetSection("App").GetValue<string>("FrontendUrl"))
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
